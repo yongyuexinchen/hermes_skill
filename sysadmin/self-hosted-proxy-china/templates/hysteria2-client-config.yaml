@@ -1,0 +1,29 @@
+# Hysteria2 Client Config (Windows)
+
+# Copy this to hysteria2-config.yaml and replace <PASSWORD> and <VPS_IP>
+
+server: "<VPS_IP>:443"
+auth: "<PASSWORD>"
+
+tls:
+  sni: www.microsoft.com
+  insecure: true
+
+socks5:
+  listen: 127.0.0.1:10808
+
+http:
+  listen: 127.0.0.1:10809
+
+# For all browsers (Chrome/Edge/Firefox): set Windows HTTP proxy to 127.0.0.1:10809
+# Firefox alternative: SOCKS5 127.0.0.1:10808 + enable socks_remote_dns
+
+bandwidth:
+  up: 100 mbps
+  down: 200 mbps
+
+quic:
+  initStreamReceiveWindow: 8388608
+  maxStreamReceiveWindow: 8388608
+  initConnReceiveWindow: 20971520
+  maxConnReceiveWindow: 20971520

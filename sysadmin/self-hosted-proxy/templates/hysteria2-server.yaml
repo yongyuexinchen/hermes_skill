@@ -1,0 +1,24 @@
+listen: :443
+tls:
+  cert: /etc/x-ui/certs/cert.pem
+  key: /etc/x-ui/certs/key.pem
+auth:
+  type: password
+  password: <PASSWORD>
+masquerade:
+  type: proxy
+  proxy:
+    url: https://www.microsoft.com
+    rewriteHost: true
+quic:
+  initStreamReceiveWindow: 8388608
+  maxStreamReceiveWindow: 8388608
+  initConnReceiveWindow: 20971520
+  maxConnReceiveWindow: 20971520
+bandwidth:
+  up: 100 mbps
+  down: 200 mbps
+ignoreClientBandwidth: false
+speedTest: false
+disableUDP: false
+udpIdleTimeout: 60s

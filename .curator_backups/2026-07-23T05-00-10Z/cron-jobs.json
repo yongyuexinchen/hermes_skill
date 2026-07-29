@@ -1,0 +1,135 @@
+{
+  "jobs": [
+    {
+      "id": "1058a11856f7",
+      "name": "\u6280\u672f\u535a\u5ba2\u9009\u9898-\u6536\u96c6\u70ed\u95e8\u5185\u5bb9",
+      "prompt": "\u4f60\u662f\u6280\u672f\u535a\u5ba2\u9009\u9898\u52a9\u624b\u3002\u6bcf\u5929\u65e9\u4e0a\u4f60\u9700\u8981\u4ece Hacker News \u548c\u77e5\u4e4e\u6536\u96c6 AI/\u524d\u7aef\u9886\u57df\u7684\u70ed\u95e8\u5185\u5bb9\u3002\u8bf7\u4f7f\u7528 web_search \u5de5\u5177\u5b8c\u6210\u4ee5\u4e0b\u641c\u7d22\u4efb\u52a1\uff08\u81f3\u5c11\u6267\u884c 4 \u6b21\u641c\u7d22\uff09\uff1a1. \u641c\u7d22 Hacker News AI LLM \u70ed\u95e8\u6587\u7ae0 2. \u641c\u7d22 Hacker News \u524d\u7aef\u5f00\u53d1\u70ed\u95e8\u6587\u7ae0 3. \u641c\u7d22 \u77e5\u4e4e AI \u5927\u6a21\u578b \u70ed\u95e8\u8ba8\u8bba 4. \u641c\u7d22 \u77e5\u4e4e \u524d\u7aef\u5f00\u53d1 \u70ed\u95e8\u6587\u7ae0\u3002\u6700\u7ec8\u8f93\u51fa Markdown \u683c\u5f0f\u8868\u683c\uff0c\u5305\u542b\u6807\u9898\u3001\u94fe\u63a5\u30011-2\u53e5\u8bf4\u660e\u3002\u6bcf\u4e2a\u6765\u6e90\u81f3\u5c11 5 \u6761\u3002\u4f18\u5148\u9009\u6709\u6df1\u5ea6\u3001\u6709\u4e89\u8bae\u6027\u6216\u65b0\u6280\u672f\u53d1\u5e03\u7684\u5185\u5bb9\u3002",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "provider_snapshot": "custom",
+      "model_snapshot": "deepseek-ai/DeepSeek-V4-Pro",
+      "base_url": null,
+      "script": null,
+      "no_agent": false,
+      "context_from": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 10 * * *",
+        "display": "0 10 * * *"
+      },
+      "schedule_display": "0 10 * * *",
+      "repeat": {
+        "times": null,
+        "completed": 1
+      },
+      "enabled": false,
+      "state": "paused",
+      "paused_at": "2026-07-16T14:43:39.425471+08:00",
+      "paused_reason": null,
+      "created_at": "2026-07-16T12:03:05.168780+08:00",
+      "next_run_at": "2026-07-17T10:00:00+08:00",
+      "last_run_at": "2026-07-16T12:08:53.168795+08:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "local",
+      "origin": null,
+      "enabled_toolsets": [
+        "web"
+      ],
+      "workdir": null,
+      "fire_claim": null
+    },
+    {
+      "id": "d17afa0670ef",
+      "name": "\u6280\u672f\u535a\u5ba2\u9009\u9898-\u7b5b\u9009Top3",
+      "prompt": "\u4f60\u662f\u6280\u672f\u535a\u5ba2\u9009\u9898\u7b5b\u9009\u52a9\u624b\u3002\u4f60\u7684\u4efb\u52a1\u662f\u6839\u636e\u4e0a\u4e00\u4e2a\u4efb\u52a1\uff08Job 1\uff09\u6536\u96c6\u7684\u70ed\u95e8\u5185\u5bb9\u8f93\u51fa\uff0c\u7b5b\u9009\u51fa 3 \u4e2a\u6700\u9002\u5408\u6211\u4eec\u535a\u5ba2\u7684\u9009\u9898\u3002\u8bc4\u4f30\u6807\u51c6\uff1a1. \u6280\u672f\u6df1\u5ea6 \u2014 \u662f\u5426\u6709\u8db3\u591f\u7684\u6280\u672f\u5e72\u8d27\u53ef\u5c55\u5f00 2. \u8bfb\u8005\u5174\u8da3\u5ea6 \u2014 \u662f\u5426\u5207\u4e2d\u76ee\u6807\u8bfb\u8005\uff08AI/\u524d\u7aef\u5f00\u53d1\u8005\uff09\u7684\u75db\u70b9\u6216\u597d\u5947\u70b9 3. \u5dee\u5f02\u5316 \u2014 \u4e0e\u5e38\u89c1\u6587\u7ae0\u89c6\u89d2\u662f\u5426\u4e0d\u540c\uff0c\u80fd\u5426\u63d0\u4f9b\u72ec\u5230\u89c1\u89e3\u3002\u8f93\u51fa\u683c\u5f0f Markdown\uff1a## \u4eca\u65e5\u63a8\u8350\u9009\u9898 Top 3\uff0c\u6bcf\u4e2a\u9009\u9898\u5305\u542b\u6392\u540d\u3001\u6807\u9898\u5efa\u8bae\u3001\u6765\u6e90\u6587\u7ae0\u94fe\u63a5\u3001\u9009\u9898\u7406\u7531\uff08\u4ece\u4e09\u4e2a\u7ef4\u5ea6\u7b80\u8981\u8bf4\u660e\uff09\u3001\u5efa\u8bae\u5199\u4f5c\u89d2\u5ea6\u3002",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "provider_snapshot": "custom",
+      "model_snapshot": "deepseek-ai/DeepSeek-V4-Pro",
+      "base_url": null,
+      "script": null,
+      "no_agent": false,
+      "context_from": [
+        "1058a11856f7"
+      ],
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 10 * * *",
+        "display": "30 10 * * *"
+      },
+      "schedule_display": "30 10 * * *",
+      "repeat": {
+        "times": null,
+        "completed": 1
+      },
+      "enabled": false,
+      "state": "paused",
+      "paused_at": "2026-07-16T14:43:40.356141+08:00",
+      "paused_reason": null,
+      "created_at": "2026-07-16T12:03:28.809841+08:00",
+      "next_run_at": "2026-07-17T10:30:00+08:00",
+      "last_run_at": "2026-07-16T12:10:45.455262+08:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "local",
+      "origin": null,
+      "enabled_toolsets": [
+        "web"
+      ],
+      "workdir": null,
+      "fire_claim": null
+    },
+    {
+      "id": "1b8b20ef4886",
+      "name": "\u6280\u672f\u535a\u5ba2\u9009\u9898-\u751f\u6210\u7b80\u62a5",
+      "prompt": "\u4f60\u662f\u6280\u672f\u535a\u5ba2\u7b80\u62a5\u751f\u6210\u52a9\u624b\u3002\u6839\u636e\u4e0a\u4e00\u4e2a\u4efb\u52a1\uff08Job 2\uff09\u7b5b\u9009\u51fa\u7684 3 \u4e2a\u9009\u9898\uff0c\u4e3a\u6bcf\u4e2a\u9009\u9898\u751f\u6210\u4e00\u4efd\u8be6\u7ec6\u7b80\u62a5\u3002\u6bcf\u4efd\u7b80\u62a5\u5fc5\u987b\u5305\u542b\uff1a1. \u6587\u7ae0\u5927\u7eb2\uff083-5\u7ea7\u6807\u9898\u7ed3\u6784\uff092. \u6838\u5fc3\u89c2\u70b9\uff083-5\u4e2a\u5173\u952e\u8bba\u70b9\uff0c\u6bcf\u4e2a1-2\u53e5\uff093. \u63a8\u8350\u53c2\u8003\u94fe\u63a5\uff083-5\u4e2a\u76f8\u5173\u8d44\u6e90\u94fe\u63a5\uff094. \u9884\u4f30\u5b57\u6570\uff08\u603b\u5b57\u6570\u8303\u56f4\uff09\u3002\u8f93\u51fa\u683c\u5f0f Markdown\uff1a## \u9009\u9898\u7b80\u62a5\uff0c\u6bcf\u4e2a\u9009\u9898\u5355\u72ec\u4e00\u8282\uff0c\u5305\u542b\u7f16\u53f7\u3001\u6807\u9898\u3001\u5927\u7eb2\u3001\u6838\u5fc3\u89c2\u70b9\u3001\u53c2\u8003\u94fe\u63a5\u3001\u9884\u4f30\u5b57\u6570\u3002\u6574\u4f53\u7b80\u6d01\u4e13\u4e1a\uff0c\u9002\u5408\u4f5c\u4e3a\u5199\u4f5c\u524d\u7684 brief \u53c2\u8003\u3002",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "provider_snapshot": "custom",
+      "model_snapshot": "deepseek-ai/DeepSeek-V4-Pro",
+      "base_url": null,
+      "script": null,
+      "no_agent": false,
+      "context_from": [
+        "d17afa0670ef"
+      ],
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 11 * * *",
+        "display": "0 11 * * *"
+      },
+      "schedule_display": "0 11 * * *",
+      "repeat": {
+        "times": null,
+        "completed": 1
+      },
+      "enabled": false,
+      "state": "paused",
+      "paused_at": "2026-07-16T14:43:41.257955+08:00",
+      "paused_reason": null,
+      "created_at": "2026-07-16T12:03:48.377118+08:00",
+      "next_run_at": "2026-07-17T11:00:00+08:00",
+      "last_run_at": "2026-07-16T12:12:53.460771+08:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "origin",
+      "origin": null,
+      "enabled_toolsets": [
+        "web"
+      ],
+      "workdir": null,
+      "fire_claim": null
+    }
+  ],
+  "updated_at": "2026-07-16T14:43:41.260955+08:00"
+}

@@ -1,0 +1,139 @@
+# ============================================
+# Clash Meta (Mihomo) Reality 配置模板
+# 替换所有 <...> 占位符后导入 Clash Verge
+# ============================================
+
+mixed-port: 7897
+socks-port: 7898
+port: 7899
+allow-lan: false
+mode: rule
+log-level: info
+ipv6: true
+external-controller: 127.0.0.1:9097
+secret: ''
+unified-delay: true
+tcp-concurrent: true
+
+dns:
+  enable: true
+  listen: :53
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter-mode: blacklist
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+  fallback:
+    - 8.8.8.8
+    - 1.1.1.1
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    ipcidr:
+      - 240.0.0.0/4
+      - 0.0.0.0/32
+
+proxies:
+  - name: "🇺🇸 自建US-Reality"
+    type: vless
+    server: <VPS_IP>
+    port: <PORT>
+    uuid: <UUID>
+    network: tcp
+    tls: true
+    udp: true
+    flow: xtls-rprx-vision
+    servername: www.microsoft.com
+    reality-opts:
+      public-key: <PUBLIC_KEY>
+      short-id: "<SHORT_ID>"
+    client-fingerprint: chrome
+
+proxy-groups:
+  - name: "🚀 代理"
+    type: select
+    proxies:
+      - "🇺🇸 自建US-Reality"
+      - DIRECT
+
+  - name: "🌍 国外流量"
+    type: select
+    proxies:
+      - "🚀 代理"
+      - DIRECT
+
+  - name: "🎯 国内流量"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 代理"
+
+  - name: "🤖 AI服务"
+    type: select
+    proxies:
+      - "🚀 代理"
+      - DIRECT
+
+  - name: "🐙 GitHub"
+    type: select
+    proxies:
+      - "🚀 代理"
+      - DIRECT
+
+rules:
+  # AI 服务 - 强制走代理（需要美国 IP）
+  - DOMAIN-SUFFIX,openai.com,🤖 AI服务
+  - DOMAIN-SUFFIX,anthropic.com,🤖 AI服务
+  - DOMAIN-SUFFIX,claude.ai,🤖 AI服务
+  - DOMAIN-SUFFIX,api.deepseek.com,🤖 AI服务
+  - DOMAIN-SUFFIX,deepseek.com,🤖 AI服务
+  - DOMAIN-SUFFIX,googleapis.com,🤖 AI服务
+  - DOMAIN-SUFFIX,gemini.google.com,🤖 AI服务
+  - DOMAIN-SUFFIX,generativelanguage.googleapis.com,🤖 AI服务
+
+  # GitHub
+  - DOMAIN-SUFFIX,github.com,🐙 GitHub
+  - DOMAIN-SUFFIX,githubusercontent.com,🐙 GitHub
+  - DOMAIN-SUFFIX,github.io,🐙 GitHub
+
+  # 国外常见
+  - DOMAIN-SUFFIX,google.com,🌍 国外流量
+  - DOMAIN-SUFFIX,youtube.com,🌍 国外流量
+  - DOMAIN-SUFFIX,twitter.com,🌍 国外流量
+  - DOMAIN-SUFFIX,x.com,🌍 国外流量
+  - DOMAIN-SUFFIX,reddit.com,🌍 国外流量
+  - DOMAIN-SUFFIX,stackoverflow.com,🌍 国外流量
+  - DOMAIN-SUFFIX,discord.com,🌍 国外流量
+  - DOMAIN-SUFFIX,telegram.org,🌍 国外流量
+  - DOMAIN-SUFFIX,huggingface.co,🌍 国外流量
+  - DOMAIN-SUFFIX,docker.com,🌍 国外流量
+  - DOMAIN-SUFFIX,pypi.org,🌍 国外流量
+  - DOMAIN-SUFFIX,npmjs.com,🌍 国外流量
+  - DOMAIN-SUFFIX,arxiv.org,🌍 国外流量
+  - DOMAIN-KEYWORD,openai,🌍 国外流量
+  - DOMAIN-KEYWORD,claude,🌍 国外流量
+
+  # 国内直连
+  - DOMAIN-SUFFIX,cn,🎯 国内流量
+  - DOMAIN-SUFFIX,baidu.com,🎯 国内流量
+  - DOMAIN-SUFFIX,bilibili.com,🎯 国内流量
+  - DOMAIN-SUFFIX,zhihu.com,🎯 国内流量
+  - DOMAIN-SUFFIX,aliyun.com,🎯 国内流量
+  - DOMAIN-SUFFIX,qq.com,🎯 国内流量
+  - DOMAIN-SUFFIX,weixin.qq.com,🎯 国内流量
+  - DOMAIN-SUFFIX,apple.com,🎯 国内流量
+  - DOMAIN-SUFFIX,microsoft.com,🎯 国内流量
+
+  # 局域网
+  - IP-CIDR,127.0.0.0/8,🎯 国内流量
+  - IP-CIDR,10.0.0.0/8,🎯 国内流量
+  - IP-CIDR,172.16.0.0/12,🎯 国内流量
+  - IP-CIDR,192.168.0.0/16,🎯 国内流量
+
+  # 兜底
+  - GEOIP,CN,🎯 国内流量
+  - MATCH,🚀 代理

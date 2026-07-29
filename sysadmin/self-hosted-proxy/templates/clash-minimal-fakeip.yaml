@@ -1,0 +1,31 @@
+dns:
+  enable: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  nameserver:
+    - 8.8.8.8
+    - 1.1.1.1
+  fallback:
+    - 223.5.5.5
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+
+proxies:
+  - name: "US"
+    type: vmess
+    server: <VPS_IP>
+    port: 10000
+    uuid: <UUID>
+    alterId: 0
+    cipher: auto
+    udp: true
+
+proxy-groups:
+  - name: "Proxy"
+    type: select
+    proxies: ["US"]
+
+rules:
+  - GEOIP,CN,DIRECT
+  - MATCH,Proxy

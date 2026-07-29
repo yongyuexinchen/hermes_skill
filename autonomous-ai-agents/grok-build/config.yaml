@@ -1,0 +1,42 @@
+# grok-build skill 配置 —— Adapter 读取，翻译为 grok headless CLI 旗标
+grok:
+  binary: grok
+  proxy: null
+  env:
+    GROK_MEMORY: "0"
+
+defaults:
+  model: deepseek-v4
+  output_format: json
+  max_turns: 30
+  timeout_seconds: 900
+  policy: guarded
+
+policies:
+  readonly:
+    tools: "read_file,grep,list_dir"
+  guarded:
+    allow:
+      - "Edit(**)"
+      - "Write(**)"
+      - "Bash(git*)"
+      - "Bash(python*)"
+      - "Bash(pip*)"
+      - "Bash(pytest*)"
+      - "Bash(uv*)"
+      - "Bash(npm*)"
+      - "Bash(node*)"
+    deny:
+      - "Bash(rm -rf*)"
+      - "Bash(sudo*)"
+      - "Bash(format*)"
+      - "WebFetch"
+  auto:
+    yolo: true
+
+verification:
+  git_diff: true
+  auto_git_init: true
+
+memory_writeback:
+  digest_max_chars: 500

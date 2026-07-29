@@ -1,0 +1,12 @@
+server: <VPS_IP>:443
+auth: <PASSWORD>
+tls:
+  sni: www.microsoft.com
+  insecure: true
+bandwidth:
+  up: 50 mbps
+  down: 200 mbps
+socks5:
+  listen: 0.0.0.0:10808
+http:
+  listen: 0.0.0.0:10809

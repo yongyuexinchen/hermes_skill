@@ -1,0 +1,509 @@
+---
+name: drbcv-research-method
+description: "Use when the user needs to systematically study any unfamiliar domain. DRBCV V0.5: multi-agent Markdown+Obsidian knowledge base with Kanban orchestration, staged validation, and hard-rule reviewer checks."
+version: 0.5.0
+author: Hermes Agent
+license: MIT
+metadata:
+  hermes:
+    tags: [research, methodology, learning, knowledge-map, multi-agent]
+    related_skills: [obsidian, autonomous-ai-agents]
+---
+
+# DRBCV V0.5 — 多 Agent 知识地图
+
+## 核心原则
+
+| 规模 | 处理方式 |
+|------|---------|
+| **少量文本**（1-3 篇短文 / <5000 字） | 主 Agent 直接处理（工作流 A/B/C） |
+| **中等规模**（1 篇长文 / 多篇短文） | 委派 1 个子 Agent 扫描 + 提取 |
+| **大规模**（多篇文章、课程、书籍章节） | **/new 新会话 + Kanban 编排 + 多 Agent 并行扫描 + 合并处理** |
+
+### ★ 分阶段验收原则（V0.5 新增 — 血的教训）
+
+> **2026-07-17 事故**：Card-Writer Agent 虚报 72/72 通过验证，实际 83 张卡含「待补充」占位符（共 ~550 处）。根因：Agent 自检只查 frontmatter 字段存在，不查字段有内容；模板占位符被原样输出；Reviewer 被提前标记 done。
+
+**每个阶段输出必须通过硬规则验证后才能进入下一阶段：**
+
+```
+Scanner 输出 JSON  →  验证脚本通过  →  Merger 合并
+Merger 输出 JSON   →  Sampler 抽查通过  →  Card-Writer 写卡
+Card-Writer 输出卡  →  占位符扫描通过  →  Linker 补链
+Linker 输出卡       →  双向链接验证通过  →  Reviewer 终检
+```
+
+**占位符零容忍**：任何阶段输出中如果检测到「待补充」「待爆破」「TODO」「???」等占位符，**视为该阶段未完成**，必须修复后重新验收。不能仅凭 Agent 自报"通过"就放行。
+
+---
+
+## 知识库结构（多 Vault）
+
+每个领域是独立的 Obsidian vault，放在 `D:\\DRBCV-Knowledge\\` 下。
+
+详见 `references/multi-vault-structure.md`（包含已创建的 SillyTavern、Hermes、Calculus 三个 vault）。
+
+**三种打开方式：**
+- 打开 `SillyTavern/` → 纯酒馆知识图谱
+- 打开 `Hermes/` → 纯 Hermes 知识图谱
+- 打开 `DRBCV-Knowledge/` → 所有领域合并，跨领域 `[[wikilink]]` 全通
+
+### 三种知识类型（标准格式）
+
+| 类型 | 回答 | 示例 |
+|------|------|------|
+| **判别型** discriminant | 「它属于什么？」 | 前端、API Key、角色卡 |
+| **连接型** connection | 「它如何影响其他东西？」 | Top-P、Temperature、导数 |
+| **混合型** mixed | 兼具判别和连接特征 | 微分中值定理 |
+| **程序型** procedure | 输入→按步骤→输出 | 三角函数的积分、分部积分法 |
+
+---
+
+## 计算类 vault 的卡片格式差异（★ 重要）
+
+不同领域的 vault 可能使用**完全不同的卡片格式**。
+
+### 标准格式（SillyTavern, Hermes 等概念型 vault）
+
+```yaml
+---
+name: 术语名
+type: discriminant|connection|mixed
+status: unexplored|exploding|exploded|core
+sources:
+  - 来源文章
+---
+```
+
+### 计算类格式（Calculus/ 等数学/理工 vault）
+
+```yaml
+---
+name: 术语名
+type: discriminant|connection|mixed|procedure
+status: unexplored|exploding|exploded|core
+source: [[来源文章]]
+---
+```
+
+含「推导过程」「重要推论」「经典例题」「类比/物理映射」「关系链」等 section。
+
+### 建卡前操作
+
+**始终先读取 `Templates/名词卡片模板.md`（若存在）或查看已有 Concepts 卡片的结构**，以 vault 内实际使用的格式为准。
+
+---
+
+## 五种关系类型
+
+| 关系 | 含义 |
+|------|------|
+| 属于 (is-a) | X 是 Y 的一种 |
+| 组成 (part-of) | X 是 Y 的一部分 |
+| 依赖 (depends-on) | X 需要 Y 才能工作 |
+| 实现 (implements) | X 实现了 Y 的功能 |
+| 替代 (replaces) | X 替代了 Y |
+| 推导 (derives) | X 可推导出 Y（数学专用） |
+
+---
+
+## 工作流 D：大规模多 Agent 建卡（Kanban 编排）
+
+### 触发条件
+
+满足以下任一条件，必须启动工作流 D：
+
+- 文章数量 ≥ 5 篇
+- 单篇文章字数 ≥ 10000 字
+- 用户明确说"批量处理""课程""书籍""多 Agent"
+- 预计产出概念卡 ≥ 20 张
+
+### 阶段 0：任务拆分（Orchestrator Agent）
+
+**Orchestrator 职责**：不直接读原文，只做编排与成本规避。
+
+1. **/new 开新会话**：大规模建卡前必须先执行 `/new`，避免本会话的长历史被后续 Scanner/Card-Writer/Linker 反复重传。这是成本优化最关键的一步，skill 自身应主动执行。
+2. **评估规模**：数文章数、估算总字数
+3. **确定切分策略**：
+   - **文件多且独立**：1 个文件 = 1 个 Scanner Agent 任务
+   - **单文件超长**：按字数/主题切分，1 个 chunk = 1 个 Scanner Agent 任务（chunk 建议 5000-8000 字，保持主题边界）
+4. **创建 Kanban 任务**（实际命令）：
+   ```bash
+   # 创建 board（slug 用 kebab-case，显示名/描述用 --name/--description）
+   hermes kanban boards create drbcv-<领域名> --name "领域知识地图" --description "DRBCV 多 Agent 建卡" --switch
+
+   # 创建任务
+   hermes kanban create "Scanner-00: <chunk名>" --assignee scanner --body "..."
+   hermes kanban create "Merger: 合并去重" --assignee merger --body "..."
+   hermes kanban create "Sampler: 抽样验收" --assignee sampler --body "随机抽3-5个概念检查JSON完整性"
+   hermes kanban create "Card-Writer: 生成概念卡" --assignee card-writer --body "..."
+   hermes kanban create "Linker: 补全关系链" --assignee linker --body "..."
+   hermes kanban create "Reviewer: 硬规则+语义检查" --assignee reviewer --body "先跑reviewer_check.py，再做语义抽查"
+
+   # 任务完成后标记 done
+   hermes kanban complete <task-id>
+
+   # 查看状态
+   hermes kanban list
+   hermes kanban show <task-id>
+   ```
+   ⚠️ **常见坑**：`hermes kanban update` 不是合法子命令；board 创建用 `hermes kanban boards create`，不能直接给 slug 后面跟显示名。
+5. **下发任务**：每个 Scanner Agent 独立读取分配的 chunk，输出中间产物到共享目录
+
+### 阶段 1：扫描提取（Scanner Agent）
+
+**输入**：分配的 chunk 文件路径
+**输出**：`temp/<chunk-id>-concepts.json`
+
+Scanner 输出 JSON 支持两种模式，**不可混用**：
+
+| 模式 | 关系引用方式 | 适用场景 |
+|------|-------------|---------|
+| **id 引用** | `relationships[].from/to` 引用 `concepts[].id` (英文 snake_case) | 英文术语为主、跨 chunk 合并 |
+| **名称引用** | `relationships[].from/to` 引用 `concepts[].name` (中文全名) | 纯中文概念，名称唯一且稳定 |
+
+名称引用模式要求在 `meta.relation_mode` 标注 `"name"`，且概念名称必须全局唯一（用括号注解消歧，如 `"未定式（7种）"`）。
+
+```json
+{
+  "source": "文件路径",
+  "chunk_id": "01",
+  "relation_mode": "name",  // "id" 或 "name"
+  "concepts": [
+    {
+      "id": "concept_a",
+      "name": "术语名（可附括号消歧）",
+      "type": "discriminant|connection|mixed|procedure|definition|theorem|method|proof",
+      "definition": "一句话定义（数学概念嵌入 LaTeX 公式）",
+      "latex": "可选：标准 LaTeX 公式形式",
+      "related_to": ["其他术语B"],
+      "examples": ["正例1", "正例2"],
+      "counter_examples": ["反例1"],
+      "notes": "细节备注"
+    }
+  ],
+  "relationships": [
+    {"from": "concept_a", "to": "concept_b", "type": "depends-on|part-of|derives|...", "note": "说明"}
+  ]
+}
+```
+
+**字段说明**：
+- `id`：唯一标识符（英文下划线），供 `relationships` 中 `from`/`to` 引用，避免同名歧义
+- `name`：中文术语名（可附外文对照），名称引用模式下同时作为关系键
+- `type`：知识类型（discriminant|connection|mixed|procedure 或定义类）
+- `definition`：定义文本（数学内容直接嵌入 LaTeX，不剥离为单独的 `latex` 字段）
+- `domain`（可选）：定义域（数学/函数概念）
+- `range`（可选）：值域（数学/函数概念）
+- `notation`（可选）：标准数学符号记法
+- `condition`（可选）：成立的前提条件（如定理、性质依赖的条件）
+- `derivation`（可选）：推导过程简述（数学公式）
+- `related_to`：相关的其他概念 id 列表
+- `examples`/`counter_examples`：正例和反例（数学概念至少各一个）
+- `notes`：补充说明、证明思路、注意事项等
+
+**约束**：
+- 每个 Scanner 只处理自己的 chunk，不跨 chunk 查重
+- **Scanner 阶段统一用 V4-Pro**。Flash 会漏概念、错关系、LaTeX 符号不一致，后续 Merger/Linker 纠错成本更高，最终不省钱。
+- 数学/LaTeX 内容必须走 V4-Pro，不委派 Flash
+- 纯文本概念型小任务可委派 Flash（仅整理/格式转换类）
+- **输出后必须运行完整性验证**：检查所有 `from`/`to` 在 concepts 中存在对应 id（或 name），避免孤立引用流入 Merger。验证脚本见 `references/scanner-verify.md`
+
+**规模估算**：3 篇中等长度文章（每篇约 2.5-5 万字转录文本），产出约 30-40 个概念 + 30-40 条关系。可作为 Scanner 任务的基准规模估算。
+
+### 阶段 2：合并去重（Merger Agent）
+
+**输入**：所有 `temp/*-concepts.json`
+**输出**：`temp/<领域名>-merged-concepts.json`
+
+**任务**：
+1. 合并同名概念（保留最完整的定义，合并 sources）
+2. 确认所有 Scanner 使用同一 `relation_mode`，不一致时报错
+3. Diff 已有概念库，标记 `新增` / `已存在` / `需更新`
+4. 输出最终待建卡清单
+
+### 阶段 2.5：抽样验收（Sampler — V0.5 新增）
+
+> **为什么需要这个阶段**：Card-Writer 读的是 Scanner/Merger 输出的 JSON，不是原文。如果 JSON 中的定义/推导/例题不够完整，Card-Writer 会把模板占位符原样输出。Sampler 在 Merger 之后、Card-Writer 之前做人工/机器抽查，确保中间产物足够"肥"。
+
+**输入**：合并后的 `temp/<领域名>-merged-concepts.json`
+**输出**：验收报告（通过/打回）
+
+**抽查规则**：
+1. **随机抽取 3-5 个概念**（优先抽高难度、有推导过程的概念）
+2. **逐个检查 JSON 字段是否"有肉"**：
+
+| 检查项 | 合格标准 | 不合格处理 |
+|--------|---------|-----------|
+| `definition` | 非空且 > 20 字，含数学定义（非一句话概括） | 打回 Scanner 重扫该概念 |
+| `derivation`（数学概念） | 有 ≥ 3 步推导步骤，含 LaTeX 公式 | 打回 Scanner 补推导 |
+| `examples` | ≥ 2 条，每条含题目+答案（非"见课本"之类） | 打回 Scanner 补例题 |
+| `counter_examples` | ≥ 1 条 | 打回 Scanner 补反例 |
+| `related_to` | ≥ 1 条，且引用名与 concepts 中的 name 精确匹配 | 打回 Scanner 修引用 |
+| 无占位符 | JSON 中无「待补充」「待爆破」「TODO」「???」 | 打回 Scanner |
+
+3. **如果抽查不合格率 > 30%**：全部概念打回 Scanner 重扫，不进入 Card-Writer
+4. **如果抽查不合格率 ≤ 30%**：只打回不合格的概念，合格的进入 Card-Writer
+
+**Sampler 可以是主 Agent 自己做**（读 JSON、人工判断），也可以委派一个子 Agent。关键是：**必须有人/Agent 真正读了合并后的 JSON 内容并判断质量**，不能跳过。
+
+### 阶段 3：卡片生成（Card-Writer Agent）
+
+**输入**：合并后的清单 + vault 模板
+**输出**：`Concepts/*.md`
+
+**任务**：
+1. 按 vault 模板生成每张卡
+2. 填满所有字段，**不留任何占位符**
+3. **批量写入**：优先用 `execute_code` 脚本循环生成全部 Markdown 文件，避免逐张 `write_file` 反复重传历史
+4. **数学卡必须读原文**：Card-Writer 不能只读 Merger 输出的 JSON（已被压缩），必须回到 `Articles/` 读源文章获取推导细节、例题步骤。JSON 是骨架，原文是血肉。
+
+**★ 自检规则（V0.5 新增 — 强制执行）**：
+
+Card-Writer 在写完**每张卡**后，必须立即运行占位符扫描：
+
+```python
+import re
+
+def check_card_placeholders(filepath):
+    """检查单张卡片是否含占位符，返回占位符列表。"""
+    with open(filepath, 'r', encoding='utf-8') as f:
+        content = f.read()
+    placeholders = []
+    # 检查所有已知的占位符模式
+    patterns = [
+        r'待补充', r'待爆破', r'TODO', r'\?\?\?',
+        r'（待补充[^）]*）',  # 含括号的变体
+        r'（待爆破[^）]*）',
+    ]
+    for p in patterns:
+        matches = re.findall(p, content)
+        placeholders.extend(matches)
+    return placeholders
+```
+
+**自检流程**：
+1. 写完一张卡 → 立即扫描该卡
+2. 如果发现占位符 → **当场修复**（重新生成缺失内容），不能"标记为待修复"然后跳过
+3. 修复后 → 再次扫描确认占位符为 0
+4. **全部卡片写完后** → 运行全量扫描（`grep -r "待补充" Concepts/`），确认 0 处残留
+5. 全量扫描通过后 → 才能进入 Linker 阶段
+
+**禁止行为**：
+- ❌ 把模板中的 `（待补充...）` 原样写入卡片
+- ❌ 自检只检查 frontmatter 字段是否存在，不检查字段内容
+- ❌ 自报"通过验证"但实际未运行占位符扫描
+- ❌ 跳过源文章，只用 JSON 中的 definition 一句话生成卡片
+
+### 阶段 4：关系链接（Linker Agent）
+
+**输入**：所有新生成的卡片 + 合并阶段的关系清单
+**输出**：更新后的卡片（在「关系」section 补全 `[[wikilink]]`）
+
+**任务**：
+1. 确保每张卡的关系链完整（A→B 则 B→A 必须存在）
+2. 修复孤立节点（无入边无出边的卡片）
+3. 建立推导链（数学卡：由...推导而来 / 可推导出）
+
+**方法论**：三阶段迭代修补
+1. **Phase 1** — 构建有向图，找出所有缺失逆向链，逐卡补全
+2. **Phase 2** — 识别孤立节点，根据领域层次映射为其添加父概念链接
+3. **Phase 3** — 补全 Phase 2 产生的级联逆向缺失，验证收敛到 100%
+
+**卡片格式差异**：vault 内可能存在多种关系 section 格式，需分别处理：
+- **新格式**：`## 关系` + `### → 指向` + `### ← 被指向`
+- **旧格式**：`## 关系（★...）` + `### 由...推导而来` + `### 可推导出`
+- **无 section**：concept-card 格式无 `## 关系`，需从头创建
+- **混合格式**：合并型卡片同时包含新旧两种格式
+
+详细工作流见 `references/linker-agent-workflow.md`。
+
+### 阶段 5：质量检查（Reviewer Agent）
+
+**输入**：新生成的卡片
+**输出**：检查报告
+
+> **V0.5 关键变更**：Reviewer 分为两步——先跑硬规则脚本（字符串级检查），再做语义抽查。硬规则不通过则直接打回 Card-Writer，不进入语义检查。**Reviewer 必须真正运行，不能提前标记 done。**
+
+#### 步骤 1：硬规则前置检查（自动化脚本）
+
+运行 `scripts/reviewer_check.py`（详见 `references/reviewer-checklist.md`），对 `Concepts/` 目录下所有卡片执行以下检查：
+
+| 检查项 | 检查方法 | 不通过处理 |
+|--------|---------|-----------|
+| **占位符扫描** | 搜索「待补充」「待爆破」「TODO」「???」「（待补充」等 | 打回 Card-Writer 逐张修复 |
+| **frontmatter 完整** | 检查 `name`/`type`/`status`/`source` 字段存在且非空 | 打回 Card-Writer 补字段 |
+| **wikilink 存在** | 每张卡至少 1 个 `[[wikilink]]` | 打回 Linker 补链 |
+| **数学卡有推导** | 数学/理工 vault：检查 `## 推导过程` 或等价 section 存在且 > 50 字 | 打回 Card-Writer 补推导 |
+| **例题数量** | 数学/理工 vault：`## 经典例题` section 中 ≥ 2 题 | 打回 Card-Writer 补例题 |
+| **Agent 残留文本** | 搜索 "Let me"、"Actually"、"Hmm"、"I should"、"tool_calls" 等 LLM 思考过程文本 | 打回 Card-Writer 清理 |
+
+**硬规则全部通过后**，才进入步骤 2。
+
+#### 步骤 2：语义抽查（人工或 LLM）
+
+随机抽 3-5 张卡，人工/LLM 检查：
+- [ ] 推导过程数学正确（非编造公式）
+- [ ] 例题答案正确（非编造结果）
+- [ ] 类比贴切（非生硬凑数）
+- [ ] 关系链方向正确（A 推导出 B，不是 B 推导出 A）
+- [ ] LaTeX 公式渲染正常（无截断、无乱码）
+
+**语义抽查不通过的卡片**：打回 Card-Writer 重写该卡。
+
+#### Reviewer 运行规则
+
+- **不可提前标记 done**：Reviewer 必须在 Linker 完成后才开始，不能在 Linker 还在跑时就标记 Reviewer 为已完成
+- **硬规则检查是 Gate**：硬规则不通过 = Reviewer 未完成，即使语义抽查已通过
+- **输出检查报告**：Reviewer 必须输出一份 Markdown 报告，列出所有检查项的通过/失败状态
+
+### 阶段流转
+
+```
+/new 新会话
+  ↓
+Orchestrator 拆分
+  ↓
+Scanner 并行扫描 → [验证脚本] → 通过？
+  ↓ Yes                          ↑ No → 重扫
+Merger 合并去重
+  ↓
+Sampler 抽查 → 通过？             ↑ No → 打回 Scanner 补内容
+  ↓ Yes
+Card-Writer 生成 → [占位符自检] → 通过？
+  ↓ Yes                          ↑ No → 当场修复
+Linker 补关系链 → [双向链接验证] → 通过？
+  ↓ Yes                          ↑ No → 补逆向链
+Reviewer 硬规则检查 → 通过？      ↑ No → 打回 Card-Writer
+  ↓ Yes
+Reviewer 语义抽查 → 通过？        ↑ No → 打回重写
+  ↓ Yes
+✅ 完成
+```
+
+**每一步的验证是 Gate，不是 Checkpoint**——不通过就不能进入下一步。
+
+---
+
+## 工作流 A/B/C 保留（小规模）
+
+工作流 A（单篇文章建卡）、B（Sources 索引建卡）、C（章节批量建卡）继续保留，用于小规模场景。详见 V0.3 版本 skill 历史。
+
+---
+
+## 成本与模型选型（★ 基于实战经验修正）
+
+| 任务 | 推荐模型 | 原因 |
+|------|---------|------|
+| Orchestrator 拆分 | V4-Pro | 需要判断主题边界 |
+| Scanner | **V4-Pro** | **Flash 虽然便宜但会漏概念、错关系、LaTeX 不一致。 Scanner 阶段准确率优先，统一用 V4-Pro。** |
+| Scanner 数学/LaTeX | V4-Pro | 公式精度要求 |
+| Merger / Linker / Reviewer | V4-Pro | 需要全局一致性 |
+| Card-Writer 批量 | **V4-Pro** + execute_code | **数学卡只让 V4-Pro 写。Flash 写卡会漏推导，后续纠错更贵。** |
+| Card-Writer 验证 | V4-Pro 或脚本 | 硬规则检查用脚本（免费），语义检查用 V4-Pro |
+
+### 关键约束
+
+- **委派 Provider 必须匹配 API 网关**：主模型走 `openai-api` 时，子 Agent 的 `delegation.provider` 也必须设为 `openai-api`，不能设为 `deepseek`。
+- **Flash 不处理数学/理工 Scanner**：会漏概念、错关系、LaTeX 符号不一致，后续纠错成本更高，最终不省钱。
+- **Flash 不写数学卡**：Flash 写卡会漏推导步骤、例题答案错误，后续人工纠错成本远超 Flash 节省的费用。
+- **新会话建卡**：大规模建卡前 `/new` 开新会话，避免长对话历史被反复重传。
+
+### 成本优化（实测有效）
+
+1. **新会话建卡**：大规模建卡前 **/new** 开新会话，避免长对话历史被反复重传。这是省钱最关键的一步。
+2. **Scanner 输出结构越轻越好**：Scanner 只输出 JSON，不要输出完整 Markdown。
+3. **Card-Writer 用 execute_code 批量写入**：不要逐张 write_file。
+4. **Linker 在单轮内完成**：一次性把关系清单喂给它，批量修改。
+5. **Linker 用 Python 脚本补关系链**：减少 LLM 轮次，脚本做字符串级操作更快更准。
+6. **纯文本/概念型小任务可委派 Flash**：如简单的名词列表整理、格式转换。
+7. **★ 验证用脚本不用 LLM**（V0.5 新增）：占位符扫描、frontmatter 检查、wikilink 存在性检查全部用 Python 脚本，零成本且 100% 可靠。LLM 只做语义抽查。
+
+### 成本参考（Calculus 建卡实测）
+
+#### 首次建卡（V0.4 — 含事故）
+
+| 模型 | Input Tokens | Cached Input | Output Tokens | 金额 |
+|------|-------------|--------------|---------------|------|
+| moonshotai/kimi-k2.7-code | 407K | 15.6M | 66K | ¥24.75 |
+| deepseek-ai/deepseek-v4-pro | 1.2M | 24.4M | 181K | ¥21.36 |
+| deepseek-ai/deepseek-v4-flash | 2.6M | 25.5M | 252K | ¥3.61 |
+| **合计** | **4.2M** | **65.5M** | **499K** | **¥49.72** |
+
+**教训**：cached input 占 65.5M tokens，是成本大头。下次 /new 开新会话再做，预计可省 60% 以上。
+
+#### 占位符修复（V0.5 — 83 张卡全量修复）
+
+| 项目 | 数值 |
+|------|------|
+| 修复卡片数 | 83 张 |
+| 替换占位符 | ~550 处 |
+| 并行子 Agent | 5 个（按主题分组） |
+| 残留占位符 | 0 |
+| 质量检查 | 通过 |
+
+**修复教训**：首次建卡时如果正确执行 V0.5 的分阶段验收（Sampler 抽查 + Card-Writer 自检 + Reviewer 硬规则），这 83 张卡的修复工作完全可以避免。**预防成本远低于纠错成本。**
+
+### 开销速查（旧数据，仅供参考）
+
+| 操作 | 模型 | 29 张卡预估费用 |
+|------|------|----------------|
+| 逐张 write_file（老方法） | V4 | ¥3-4 |
+| execute_code 批量 | V4 | ¥1-1.5 |
+| execute_code 批量 + 委派 Flash | Flash | ¥0.15-0.3 |
+
+### 中间产物文件结构
+
+```
+temp/
+    <chunk-id>-concepts.json      # Scanner 输出
+    <domain>-merged-concepts.json  # Merger 输出
+    <domain>-relations.json        # Linker 输出
+    review-report.md               # Reviewer 输出
+```
+
+中间产物保留到 Reviewer 通过后可删除，或归档到 `temp/archive/`。
+
+---
+
+## 领域特殊字段
+
+| 领域 | 额外字段 | 格式要求 |
+|------|---------|---------|
+| **数学/物理/理工** | `## 经典例题` + `## 类比` + `## 推导过程` + `## 重要推论` | 必含：物理映射表 + 一句话比喻 + **公式推导链** + **关系链 wikilink** |
+| **AI 工程/工具** | `## 细节备注` | 子特性表 + 使用原则 |
+| **通用** | `## 类比` | 至少 1 个生活化比喻 |
+
+### 数学关系链示例
+
+```
+[[定积分的换元法]]
+    ↓ 推出
+[[区间再现公式]]
+    ↓ 与 [[三角函数的积分]] 结合
+[[分部积分法]]
+    ↓ 得到递推式
+[[点火公式(Wallis公式)]]
+```
+
+---
+
+## Pitfalls
+
+1. **长文本单 Agent 硬啃** → 超过 8000 字必须切分，否则 Scanner 会漏关键概念
+2. **Scanner 跨 chunk 推断关系** → 每个 Scanner 只输出自己 chunk 内的关系，跨 chunk 关系交给 Merger
+3. **Card-Writer 不读模板** → 必须先读 `Templates/名词卡片模板.md` 或已有卡片
+4. **Linker 遗漏反向链接** → A→B 的关系必须在 B 卡中出现 ← 被指向。必须在修补后重新建图验证，**至少运行 2 轮**（第一轮补缺失逆向链 + 孤立节点，第二轮补 Phase 2 产生的级联逆向缺失）。
+5. **Reviewer 不检查推导链** → 数学卡必须验证"由谁推导 / 可推什么"
+6. **小任务走大流程** → <3 篇短文不要启动 Kanban，直接工作流 A/B/C
+7. **中间产物不清理** → Reviewer 通过后归档 temp，避免 vault 污染
+8. **跨 vault 概念重复** → 用 `cross_ref: "[[已有卡名]]"` 标注，不重复建卡
+9. **名称引用模式不标注 `relation_mode`** → Merger 无法区分引用模式，导致验证失败。必须始终在 `meta.relation_mode` 中标注 `"id"` 或 `"name"`
+10. **名称引用模式概念名不唯一** → 两个同名概念（如 `"未定式"` vs `"未定式（7种）"`）会导致关系引用歧义。必须用括号注解确保名称在文件中唯一
+11. **LaTeX/Unicode 字符在名称引用中不匹配** → 名称引用是精确字符串匹配，`ε` 和 `\varepsilon` 被视为不同字符串
+12. **★ Card-Writer 模板占位符原样输出**（V0.5 新增）→ Card-Writer 把模板中的 `（待补充...）` 直接写入卡片而不替换。**根因**：自检只查 frontmatter 字段存在，不查字段内容。**修复**：写完每张卡后必须运行占位符扫描（字符串级），发现占位符当场修复。
+13. **★ Agent 自检不可靠**（V0.5 新增）→ Flash 子 Agent 的"验证通过"只是结构性检查（frontmatter 存在），没检查内容是否填实。**修复**：硬规则脚本检查优先于 Agent 自报；占位符零容忍。
+14. **★ Reviewer 被提前标记 done**（V0.5 新增）→ 在 Linker 还没跑完时就把 Reviewer 任务标记 done，Reviewer 没真正执行。**修复**：Reviewer 必须在 Linker 完成后才开始；硬规则检查是 Gate，不通过即未完成。
+15. **★ Merger 输出未经抽查直接进入 Card-Writer**（V0.5 新增）→ Merger 输出的 JSON 信息已被 Scanner 压缩过一次，丢失推导细节。Card-Writer 读 JSON 生成卡片时内容太薄。**修复**：Merger 后增加 Sampler 抽查（阶段 2.5），确认 JSON 足够完整。
+16. **★ Card-Writer 不读原文**（V0.5 新增）→ Card-Writer 只读 Scanner 提取的 JSON，不回 `Articles/` 读源文章，导致推导过程、例题步骤缺失。**修复**：数学卡必须读原文获取推导细节；JSON 是骨架，原文是血肉。
+17. **★ Agent 思考过程文本泄露到卡片**（V0.5 新增）→ 子 Agent 在生成卡片时把 LLM 内部思考过程（"Let me..."、"Actually..."、"I should..."）写入卡片内容。**修复**：Reviewer 硬规则检查中搜索 LLM 思考过程关键词，发现则打回清理。

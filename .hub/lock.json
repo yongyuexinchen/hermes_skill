@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "installed": {
+    "honcho": {
+      "source": "official",
+      "identifier": "official/autonomous-ai-agents\\honcho",
+      "trust_level": "builtin",
+      "scan_verdict": "dangerous",
+      "content_hash": "sha256:3092e450107aab14",
+      "install_path": "honcho",
+      "files": [
+        "SKILL.md"
+      ],
+      "metadata": {},
+      "installed_at": "2026-07-13T04:56:35.988769+00:00",
+      "updated_at": "2026-07-13T04:56:35.988769+00:00"
+    }
+  }
+}

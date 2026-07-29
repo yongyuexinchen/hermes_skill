@@ -1,0 +1,59 @@
+# VMess + WebSocket Clash 配置模板
+
+最稳定、兼容性最好的自建代理方案。无 TLS/Reality 依赖。
+
+## VPS 端（3X-UI 面板）
+
+| 设置 | 值 |
+|------|-----|
+| 协议 | vmess |
+| 端口 | 10000（或其他非标准端口） |
+| 传输 | ws |
+| 路径 | /ws |
+| 安全 | 无 |
+
+## Clash 配置
+
+```yaml
+mixed-port: 7897
+mode: rule
+log-level: info
+
+proxies:
+  - name: "🇺🇸 VPS-VMess"
+    type: vmess
+    server: YOUR_VPS_IP
+    port: 10000
+    uuid: YOUR_UUID
+    alterId: 0
+    cipher: auto
+    network: ws
+    ws-opts:
+      path: /ws
+    udp: true
+
+proxy-groups:
+  - name: "🚀 代理"
+    type: select
+    proxies:
+      - "🇺🇸 VPS-VMess"
+      - DIRECT
+
+rules:
+  - DOMAIN-SUFFIX,openai.com,🚀 代理
+  - DOMAIN-SUFFIX,anthropic.com,🚀 代理
+  - DOMAIN-SUFFIX,claude.ai,🚀 代理
+  - DOMAIN-SUFFIX,github.com,🚀 代理
+  - DOMAIN-SUFFIX,google.com,🚀 代理
+  - DOMAIN-SUFFIX,youtube.com,🚀 代理
+  - GEOIP,CN,DIRECT
+  - MATCH,🚀 代理
+```
+
+## 为什么 VMess+WS 比 Reality 更推荐
+
+- Clash Meta 对 VMess+WS 支持最成熟
+- 不需要 TLS 证书和密钥管理
+- 个人使用不会被 GFW 重点关照
+- 排查问题简单（TCP + WebSocket 握手清晰）
+- Reality 看似更隐蔽，但兼容性坑多（版本、密钥格式、SNI 缺省等）

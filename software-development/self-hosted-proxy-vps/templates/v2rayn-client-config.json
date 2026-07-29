@@ -1,0 +1,58 @@
+{
+  "log": {"loglevel": "warning"},
+  "dns": {
+    "servers": [
+      {"address": "119.29.29.29", "domains": ["geosite:cn"], "skipFallback": true},
+      "https://cloudflare-dns.com/dns-query"
+    ]
+  },
+  "inbounds": [{
+    "tag": "socks",
+    "port": 10808,
+    "listen": "127.0.0.1",
+    "protocol": "mixed",
+    "sniffing": {"enabled": true, "destOverride": ["http", "tls"]},
+    "settings": {"auth": "noauth", "udp": true}
+  }],
+  "outbounds": [
+    {
+      "tag": "proxy",
+      "protocol": "hysteria",
+      "settings": {
+        "address": "VPS_IP_HERE",
+        "port": 443,
+        "version": 2
+      },
+      "streamSettings": {
+        "network": "hysteria",
+        "security": "tls",
+        "tlsSettings": {
+          "allowInsecure": true,
+          "serverName": "www.microsoft.com"
+        },
+        "hysteriaSettings": {
+          "version": 2,
+          "auth": "PASSWORD_HERE"
+        },
+        "finalmask": {
+          "quicParams": {
+            "congestion": "brutal",
+            "brutalUp": "100mbps",
+            "brutalDown": "100mbps"
+          }
+        }
+      }
+    },
+    {"tag": "direct", "protocol": "freedom"}
+  ],
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      {"type": "field", "domain": ["domain:api.deepseek.com", "domain:deepseek.com"], "outboundTag": "direct"},
+      {"type": "field", "ip": ["geoip:private"], "outboundTag": "direct"},
+      {"type": "field", "ip": ["geoip:cn"], "outboundTag": "direct"},
+      {"type": "field", "domain": ["geosite:cn"], "outboundTag": "direct"},
+      {"type": "field", "outboundTag": "proxy"}
+    ]
+  }
+}

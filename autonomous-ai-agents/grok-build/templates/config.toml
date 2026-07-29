@@ -1,0 +1,32 @@
+# Grok Build config.toml 模板
+# 放到 ~/.grok/config.toml
+
+[models]
+default = "siliconflow-v4"
+
+[model.siliconflow-v4]
+model = "deepseek-ai/DeepSeek-V4-Pro"
+base_url = "https://api.siliconflow.cn/v1"
+name = "DeepSeek V4 Pro (硅基)"
+api_key = "FILL_ME"
+context_window = 128000
+
+[model.siliconflow-flash]
+model = "deepseek-ai/DeepSeek-V4-Flash"
+base_url = "https://api.siliconflow.cn/v1"
+name = "DeepSeek V4 Flash (硅基)"
+api_key = "FILL_ME"
+context_window = 128000
+
+[model.deepseek-official]
+model = "deepseek-chat"
+base_url = "https://api.deepseek.com/v1"
+name = "DeepSeek V4 (官方)"
+api_key = "FILL_ME"
+context_window = 128000
+
+[session]
+auto_compact = true
+
+[memory]
+enabled = false

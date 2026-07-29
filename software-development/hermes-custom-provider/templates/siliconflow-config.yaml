@@ -1,0 +1,18 @@
+# SiliconFlow (硅基流动) custom provider snippet for ~/.hermes/config.yaml
+# Merge into your existing config.yaml — do NOT replace the whole file.
+
+model:
+  default: deepseek-ai/DeepSeek-V4-Pro   # or any model on SiliconFlow
+  provider: custom                         # MUST be "custom", NOT "openai"
+  base_url: https://api.siliconflow.cn/v1
+
+custom_providers:
+  - name: siliconflow
+    base_url: https://api.siliconflow.cn/v1
+    key_env: OPENAI_API_KEY                # env var holding your SiliconFlow API key
+
+# Other good SiliconFlow models:
+#   deepseek-ai/DeepSeek-V4-Flash  — faster/cheaper
+#   deepseek-ai/DeepSeek-V3.2      — V3 latest
+#   Pro/deepseek-ai/DeepSeek-R1    — reasoning
+#   Qwen/Qwen3-235B-A22B           — Qwen flagship
