@@ -458,6 +458,19 @@ ls -la D:/Contents/research/<date>_<topic>/architecture*.md
 - `references/agent-methodology-card.md` — Agent 方法论卡片
 - `references/profile-config-recipe.md` — Profile 配置方法
 
+### 陷阱 9：金融调研 Agent 在境内因 API 不可用而卡死（🔴 2026-07-30 实战）
+
+**现象**：金融调研类 vb-analyst 运行 9+ 分钟持续 heartbeat 但零文件产出。Agent 在尝试东方财富龙虎榜/北向/板块估值 API 时遭遇全 404/503，陷入无声死循环。
+
+**根因**：东方财富多个 API 端点在中国境内不可用（龙虎榜 404、板块估值 503、批量行情代理断连），但 Agent 的 web_search + API 调用循环无法感知"结构性不可用"——它会把每个失败当作临时故障重试。
+
+**应对**（引用 `industry-research` 技能的陷阱 12 和回退流程）：
+- Hermes 监控：vb-analyst/vb-researcher heartbeat >5 分钟无 `.md` 产出 → 判定卡死
+- Hermes 接管：基于 K线量价关系 + 腾讯API 直写分析笔记，然后直接出 REPORT.md
+- **不要**无限等 Agent——境内金融 API 不可用是结构性限制
+
+**预防**：创建金融调研 Kanban 任务时，在 vb-analyst 的 task body 中明确：如果龙虎榜/北向 API 返回 404/503，立即跳过该维度，基于 K线量价做替代分析，不要重试。
+
 ### 陷阱 8：Kanban Swarm Worker profile 缺少 provider 配置（🔴 2026-07-28 实战）
 
 **现象**：`hermes kanban swarm` 创建任务后，Worker 秒崩（`pid not alive`），所有任务在 ~60s 内 blocked。`dispatch` 显示 `Spawned: 0`。

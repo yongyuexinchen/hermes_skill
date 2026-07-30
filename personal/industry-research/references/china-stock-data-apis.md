@@ -9,6 +9,7 @@
 | **腾讯行情** | `qt.gtimg.cn` | HTTP | ✅ 是 | 低 | 个股实时行情（最快、最稳定） |
 | 东方财富 ulist.np | `push2.eastmoney.com` | HTTPS | ⚠️ 不稳定 | 高 | 批量 A 股（一次 20+ 只） |
 | 东方财富 stock/get | `push2.eastmoney.com` | HTTPS | ⚠️ 不稳定 | 极高 | 港股单股查询 |
+| 东方财富 push2his | `push2his.eastmoney.com` | HTTPS | ⚠️ 不稳定 | 高 | 历史 K 线（日线/周线），行情复盘 |
 | 蛋卷基金估值 | `danjuanfunds.com` | HTTPS | ⚠️ 可能需要 | 中 | PE/PB 历史分位 |
 | 新浪行情 | `hq.sinajs.cn` | HTTP | ✅ 是 | 低 | 备用方案 |
 
@@ -82,7 +83,69 @@ curl -s --compressed \
 
 ---
 
-## 3. 蛋卷基金估值 API
+## 3. 东方财富 K 线 API（历史行情）
+
+**端点**：`push2his.eastmoney.com/api/qt/stock/kline/get`
+
+**用途**：拉取个股/ETF 日线/周线历史数据，复盘行情走势。
+
+**参数说明**：
+
+| 参数 | 含义 | 常用值 |
+|------|------|--------|
+| `secid` | 证券代码 | A股: `0.002371`, 科创板: `1.688981`, ETF: `0.159995` |
+| `klt` | K线周期 | `101`=日线, `102`=周线, `103`=月线 |
+| `fqt` | 复权方式 | `0`=不复权, `1`=前复权 |
+| `beg` | 起始日期 | `20260601` |
+| `end` | 结束日期 | `20260730` |
+| `fields1` | 基础字段 | `f1,f2,f3,f4,f5,f6` |
+| `fields2` | K线字段 | `f51,f52,f53,f54,f55,f56,f57` |
+
+**secid 格式速查**：
+
+| 市场 | secid 前缀 | 示例 |
+|------|:---:|------|
+| 深交所 A 股 | `0.` | `0.002371` (北方华创) |
+| 上交所 A 股 | `1.` | `1.688981` (中芯国际) |
+| 深交所 ETF | `0.` | `0.159995` (芯片ETF) |
+| 上交所 ETF | `1.` | `1.512480` (半导体ETF) |
+
+**Python 示例**：
+
+```python
+import urllib.request, json
+
+secid = '0.159995'  # 芯片ETF
+url = (
+    f'https://push2his.eastmoney.com/api/qt/stock/kline/get'
+    f'?secid={secid}'
+    f'&klt=101&fqt=1'
+    f'&beg=20260601&end=20260730'
+    f'&fields1=f1,f2,f3,f4,f5,f6'
+    f'&fields2=f51,f52,f53,f54,f55,f56,f57'
+    f'&ut=fa5fd1943c7b386f172d6893dbbdf45b'
+)
+req = urllib.request.Request(url, headers={
+    'User-Agent': 'Mozilla/5.0',
+    'Referer': 'https://quote.eastmoney.com/',
+})
+resp = urllib.request.urlopen(req, timeout=15)
+data = json.loads(resp.read().decode())
+klines = data['data']['klines']
+
+# 每条 K 线格式: "日期,开盘,收盘,最高,最低,成交量,成交额,振幅,涨跌幅,涨跌额,换手率"
+for line in klines:
+    date, open_p, close_p, high, low, vol, amt, *_ = line.split(',')
+    print(f'{date}  O={open_p}  C={close_p}  H={high}  L={low}')
+```
+
+**速率限制**：与 push2 同源，连续请求需间隔 ≥1.5 秒。优先用 ETF 作为板块代理（一次拉取覆盖整个板块趋势）。
+
+**行情复盘技巧**：用 `execute_code` 拉取日线后，计算每日涨跌幅、标注异常日（单日涨跌 >5%），自动识别行情阶段（拉升/诱多/主跌）。
+
+---
+
+## 4. 蛋卷基金估值 API
 
 **端点**：`https://danjuanfunds.com/djapi/index_eva/dj?index_code={code}`
 
@@ -90,7 +153,7 @@ curl -s --compressed \
 
 ---
 
-## 4. 代理策略
+## 5. 代理策略
 
 | 场景 | 用代理？ | 说明 |
 |------|:---:|------|

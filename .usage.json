@@ -419,14 +419,14 @@
     "archived_at": null,
     "created_at": "2026-07-15T02:13:48.606626+00:00",
     "created_by": null,
-    "last_patched_at": "2026-07-29T08:40:15.227053+00:00",
-    "last_used_at": "2026-07-29T08:39:47.683234+00:00",
-    "last_viewed_at": "2026-07-29T08:39:47.676066+00:00",
-    "patch_count": 159,
+    "last_patched_at": "2026-07-29T12:24:28.582482+00:00",
+    "last_used_at": "2026-07-29T12:24:19.493924+00:00",
+    "last_viewed_at": "2026-07-29T12:24:19.482269+00:00",
+    "patch_count": 161,
     "pinned": false,
     "state": "active",
-    "use_count": 154,
-    "view_count": 154
+    "use_count": 155,
+    "view_count": 155
   },
   "evaluating-llms-harness": {
     "archived_at": null,
@@ -757,14 +757,14 @@
     "archived_at": null,
     "created_at": "2026-07-28T07:24:12.753086+00:00",
     "created_by": null,
-    "last_patched_at": "2026-07-29T12:20:25.341721+00:00",
-    "last_used_at": "2026-07-29T12:20:12.891221+00:00",
-    "last_viewed_at": "2026-07-29T12:20:12.879817+00:00",
-    "patch_count": 76,
+    "last_patched_at": "2026-07-30T11:31:47.434242+00:00",
+    "last_used_at": "2026-07-30T11:31:54.436868+00:00",
+    "last_viewed_at": "2026-07-30T11:31:54.425035+00:00",
+    "patch_count": 98,
     "pinned": false,
     "state": "active",
-    "use_count": 57,
-    "view_count": 57
+    "use_count": 70,
+    "view_count": 70
   },
   "jupyter-live-kernel": {
     "archived_at": null,
@@ -887,14 +887,14 @@
     "archived_at": null,
     "created_at": "2026-07-29T07:43:57.665390+00:00",
     "created_by": "agent",
-    "last_patched_at": "2026-07-29T07:44:09.956403+00:00",
-    "last_used_at": "2026-07-29T08:30:19.203394+00:00",
-    "last_viewed_at": "2026-07-29T08:30:19.190188+00:00",
-    "patch_count": 1,
+    "last_patched_at": "2026-07-30T06:43:24.496454+00:00",
+    "last_used_at": "2026-07-30T06:42:48.102314+00:00",
+    "last_viewed_at": "2026-07-30T06:42:48.097153+00:00",
+    "patch_count": 3,
     "pinned": false,
     "state": "active",
-    "use_count": 1,
-    "view_count": 1
+    "use_count": 3,
+    "view_count": 3
   },
   "ml-python-windows-setup": {
     "archived_at": null,
@@ -1186,14 +1186,14 @@
     "archived_at": null,
     "created_at": "2026-07-24T02:33:41.090620+00:00",
     "created_by": "agent",
-    "last_patched_at": "2026-07-27T05:24:45.251053+00:00",
-    "last_used_at": "2026-07-27T05:24:31.363313+00:00",
-    "last_viewed_at": "2026-07-27T05:24:31.349393+00:00",
-    "patch_count": 3,
+    "last_patched_at": "2026-07-29T12:36:17.856553+00:00",
+    "last_used_at": "2026-07-29T12:36:08.039315+00:00",
+    "last_viewed_at": "2026-07-29T12:36:08.030242+00:00",
+    "patch_count": 4,
     "pinned": false,
     "state": "active",
-    "use_count": 3,
-    "view_count": 3
+    "use_count": 5,
+    "view_count": 5
   },
   "requesting-code-review": {
     "archived_at": null,
@@ -1459,14 +1459,14 @@
     "archived_at": null,
     "created_at": "2026-07-20T02:52:51.988018+00:00",
     "created_by": null,
-    "last_patched_at": "2026-07-28T11:02:53.245237+00:00",
-    "last_used_at": "2026-07-28T11:02:37.754999+00:00",
-    "last_viewed_at": "2026-07-28T11:02:37.741241+00:00",
-    "patch_count": 40,
+    "last_patched_at": "2026-07-30T10:02:58.774057+00:00",
+    "last_used_at": "2026-07-30T10:02:45.032841+00:00",
+    "last_viewed_at": "2026-07-30T10:02:45.019605+00:00",
+    "patch_count": 41,
     "pinned": false,
     "state": "active",
-    "use_count": 40,
-    "view_count": 40
+    "use_count": 43,
+    "view_count": 43
   },
   "vps-proxy-selfhost": {
     "archived_at": null,
@@ -1525,13 +1525,13 @@
     "created_at": "2026-07-23T11:49:27.009160+00:00",
     "created_by": "agent",
     "last_patched_at": "2026-07-23T11:49:44.701530+00:00",
-    "last_used_at": null,
-    "last_viewed_at": null,
+    "last_used_at": "2026-07-29T12:35:37.613572+00:00",
+    "last_viewed_at": "2026-07-29T12:35:37.603655+00:00",
     "patch_count": 1,
     "pinned": false,
     "state": "active",
-    "use_count": 0,
-    "view_count": 0
+    "use_count": 1,
+    "view_count": 1
   },
   "windows-system-config": {
     "archived_at": null,

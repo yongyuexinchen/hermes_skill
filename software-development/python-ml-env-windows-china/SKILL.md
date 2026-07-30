@@ -132,7 +132,36 @@ unset PYTHONPATH && /path/to/venv/Scripts/python script.py
 
 **Note**: `os.environ['PYTHONPATH'] = ''` inside a script is too late — the polluted sys.path was already baked in at interpreter startup. Must be cleared BEFORE the Python process starts.
 
-## 10. Independent Venv for Tools (Avoid Dependency Hell)
+## 10. Anaconda Qt5 DLL Pollution with PyQt6 / Qt6 Apps
+
+**Symptom**: `from PyQt6.QtCore import QT_VERSION_STR` fails with `ImportError: DLL load failed while importing QtCore: 找不到指定的程序。` — even when `PyQt6` and `PyQt6-Qt6` are correctly installed in the venv and `os.add_dll_directory(qt6_bin)` is called.
+
+**Root cause**: Anaconda ships its own Qt5 DLLs at `C:\ProgramData\anaconda3\Lib\site-packages\PyQt5\Qt5\bin\`. These are in the Anaconda Python's DLL search order and load BEFORE Qt6 DLLs. Qt5 and Qt6 DLLs are binary-incompatible — mixing them causes WinError 127.
+
+**Why export PATH / os.add_dll_directory don't help**: The Anaconda Python interpreter itself has a baked-in DLL search that picks up Qt5 before Qt6. Even `uv sync` will pick Anaconda Python if it's the only 3.11 on the system (`Using CPython 3.11.7 interpreter at: C:\ProgramData\anaconda3\python.exe`).
+
+**Fix — uv standalone Python** (cleanest, recommended):
+
+```bash
+# 1. Install a standalone Python managed by uv (NOT Anaconda)
+uv python install 3.11
+
+# 2. Rebuild venv pointing to standalone Python
+cd <project>
+rm -rf .venv
+uv sync --extra dev --python 3.11.15
+
+# 3. Now Qt6 imports cleanly
+uv run python -c "from PyQt6.QtCore import QT_VERSION_STR; print(QT_VERSION_STR)"
+```
+
+**Verification**: The uv standalone Python lives at `~/.local/share/uv/python/cpython-3.11.X-.../` — check with `uv run python -c "import sys; print(sys.executable)"`. It should NOT contain `anaconda3` in the path.
+
+**Alternative — conda install PyQt6**: `conda install -c conda-forge pyqt` handles Qt runtime dependencies correctly. But this may install PyQt5 not PyQt6; check `conda search pyqt` first. Pip-installed PyQt6 wheels assume a clean Windows environment without Anaconda Qt5 pollution.
+
+**When to suspect this**: Any `ImportError: DLL load failed` involving Qt, especially on machines that have Anaconda AND a pip/uv-installed Qt6 project. Test Qt5 first: `python -c "from PyQt5.QtCore import *; print('works')"` — if Qt5 works but Qt6 doesn't, this is the cause.
+
+## 11. Independent Venv for Tools (Avoid Dependency Hell)
 
 When installing a new tool that has conflicting dependencies with rvc/gpt-sovits/cosyvoice environments, create a clean standalone venv:
 

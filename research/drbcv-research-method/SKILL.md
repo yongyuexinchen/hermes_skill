@@ -239,6 +239,7 @@ search_files(path="<Domain>/Concepts", pattern="^---$", output_mode="count")
 > - 同一技术的「原理+配置+部署」→ 合并为 1-2 张技术卡
 > - **反模式**：Chatglm2+langchain 4 篇各生成一张 → 应合并为 2 张（部署篇 + 配置篇）
 > - 合并后的 source 字段列出所有来源：`source: "[[源1_原文]] / [[源2_原文]]"`
+> 📋 实战案例：[references/merge-plan-example-price-action.md](references/merge-plan-example-price-action.md) — 29 源→33 卡，3 Agent 并行，零缺陷验收，含完整的三组拆分策略和验证命令
 
 ### 超大规模（40+ 概念，整本书/整门课）
 
