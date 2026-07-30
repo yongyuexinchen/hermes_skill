@@ -1,0 +1,84 @@
+{
+  "type": "金融控股公司",
+  "type_name": "金融控股公司",
+  "count": 15,
+  "data_source": "中国人民银行",
+  "update_time": "2026-06-26",
+  "institutions": [
+    {
+      "name": "中国中信集团",
+      "code": "CITIC",
+      "type": "金融控股公司"
+    },
+    {
+      "name": "中国光大集团",
+      "code": "CEBGP",
+      "type": "金融控股公司"
+    },
+    {
+      "name": "北京金融控股集团",
+      "code": "BJFHG",
+      "type": "金融控股公司"
+    },
+    {
+      "name": "招商局集团",
+      "code": "CMG",
+      "type": "金融控股公司"
+    },
+    {
+      "name": "中国平安集团",
+      "code": "PAG",
+      "type": "金融控股公司"
+    },
+    {
+      "name": "蚂蚁集团",
+      "code": "ANTG",
+      "type": "金融控股公司"
+    },
+    {
+      "name": "腾讯金融",
+      "code": "TENCENTF",
+      "type": "金融控股公司"
+    },
+    {
+      "name": "京东集团",
+      "code": "JDG",
+      "type": "金融控股公司"
+    },
+    {
+      "name": "上海国际集团",
+      "code": "SIIG",
+      "type": "金融控股公司"
+    },
+    {
+      "name": "深圳市投资控股",
+      "code": "SICG",
+      "type": "金融控股公司"
+    },
+    {
+      "name": "中国华融资产管理",
+      "code": "CHAMC",
+      "type": "金融控股公司"
+    },
+    {
+      "name": "中国信达资产管理",
+      "code": "CINDA",
+      "type": "金融控股公司"
+    },
+    {
+      "name": "中国东方资产管理",
+      "code": "COAMC",
+      "type": "金融控股公司"
+    },
+    {
+      "name": "中国长城资产管理",
+      "code": "GWAMC",
+      "type": "金融控股公司"
+    },
+    {
+      "name": "中国银河金融控股",
+      "code": "YHFH",
+      "type": "金融控股公司"
+    }
+  ]
+}

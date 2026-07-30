@@ -1,0 +1,259 @@
+{
+  "type": "企业集团财务公司",
+  "type_name": "企业集团财务公司",
+  "count": 250,
+  "data_source": "国家金融监督管理总局/中国财务公司协会",
+  "update_time": "2026-06-26",
+  "institutions": [
+    {
+      "name": "中油财务",
+      "code": "ZYCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中核财务",
+      "code": "ZHCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中船财务",
+      "code": "ZCCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中航财务",
+      "code": "ZHCW2",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中国电力财务",
+      "code": "ZGDL",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中电投财务",
+      "code": "ZDTCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "华电财务",
+      "code": "HDCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "国电财务",
+      "code": "GDCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "大唐财务",
+      "code": "DTCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "华能财务",
+      "code": "HNCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中海石油财务",
+      "code": "ZHSYCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中化集团财务",
+      "code": "ZHJTCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中粮财务",
+      "code": "ZLCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中铝财务",
+      "code": "ZLCW2",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中远海运财务",
+      "code": "ZYHYCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中国通用技术集团财务",
+      "code": "ZGTYCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "国机财务",
+      "code": "GJCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中建财务",
+      "code": "ZJCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中铁财务",
+      "code": "ZTCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中交财务",
+      "code": "ZJCW2",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "航天科工财务",
+      "code": "HTKGCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "兵器装备财务",
+      "code": "BQZBCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "兵器工业财务",
+      "code": "BQGYCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中国五矿财务",
+      "code": "ZGWKCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中国中化财务",
+      "code": "ZGZHCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "招商局财务",
+      "code": "ZSJCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "保利财务",
+      "code": "BLCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "华润财务",
+      "code": "HRCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "国家能源集团财务",
+      "code": "GJNYJTCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中广核财务",
+      "code": "ZGHCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中核建财务",
+      "code": "ZHJCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "航天科技财务",
+      "code": "HTKJCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中国电子财务",
+      "code": "ZGDZCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中信财务",
+      "code": "ZXFC",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "一汽财务",
+      "code": "YQFC",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "东风汽车财务",
+      "code": "DFQCCW",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "上汽财务",
+      "code": "SAICFC",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "海信财务",
+      "code": "HXFC",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "海尔财务",
+      "code": "HEFC",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "美的财务",
+      "code": "MDFC",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "TCL财务",
+      "code": "TCLFC",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "格力财务",
+      "code": "GLFC",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "恒大财务",
+      "code": "HDFC",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "碧桂园财务",
+      "code": "BGYFC",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "万科财务",
+      "code": "WKFC",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "华夏幸福财务",
+      "code": "HXXFFC",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "新希望财务",
+      "code": "XXWFC",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "正泰财务",
+      "code": "ZTFC",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "沙钢财务",
+      "code": "SGFC",
+      "type": "企业集团财务公司"
+    },
+    {
+      "name": "中国化学工程财务",
+      "code": "ZGHXGCCW",
+      "type": "企业集团财务公司"
+    }
+  ]
+}

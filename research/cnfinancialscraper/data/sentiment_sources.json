@@ -1,0 +1,478 @@
+{
+  "_meta": {
+    "version": "4.5.0",
+    "updated_at": "2026-07-29",
+    "description": "全网舆情爬虫媒体源库 — 权威媒体 / 财经垂直 / 地方媒体 / 自媒体 / 国际媒体 + 搜索引擎",
+    "categories": ["authoritative", "financial_vertical", "local_media", "self_media", "international", "search_engine"]
+  },
+
+  "search_engines": [
+    {
+      "name": "duckduckgo",
+      "type": "search_engine",
+      "engine": "duckduckgo",
+      "credibility": 7,
+      "language": "multi",
+      "tags": ["搜索引擎", "隐私", "零依赖"],
+      "url": "https://html.duckduckgo.com/html/",
+      "needs_api_key": false,
+      "enabled": true
+    },
+    {
+      "name": "bing_html",
+      "type": "search_engine",
+      "engine": "bing_html",
+      "credibility": 6,
+      "language": "multi",
+      "tags": ["搜索引擎"],
+      "url": "https://www.bing.com/search",
+      "needs_api_key": false,
+      "enabled": true,
+      "note": "HTML 解析，易反爬，仅作 fallback"
+    },
+    {
+      "name": "bing_api",
+      "type": "search_engine",
+      "engine": "bing_api",
+      "credibility": 9,
+      "language": "multi",
+      "tags": ["搜索引擎", "官方API"],
+      "url": "https://api.bing.microsoft.com/v7.0/search",
+      "needs_api_key": true,
+      "env_key": "BING_API_KEY",
+      "enabled": false
+    },
+    {
+      "name": "google_api",
+      "type": "search_engine",
+      "engine": "google_api",
+      "credibility": 10,
+      "language": "multi",
+      "tags": ["搜索引擎", "官方API"],
+      "url": "https://www.googleapis.com/customsearch/v1",
+      "needs_api_key": true,
+      "env_keys": ["GOOGLE_API_KEY", "GOOGLE_CSE_ID"],
+      "enabled": false
+    },
+    {
+      "name": "searxng",
+      "type": "search_engine",
+      "engine": "searxng",
+      "credibility": 6,
+      "language": "multi",
+      "tags": ["元搜索", "公共实例"],
+      "instance": "https://searx.be",
+      "needs_api_key": false,
+      "enabled": true,
+      "note": "公共实例可用性看具体实例"
+    }
+  ],
+
+  "authoritative": [
+    {
+      "name": "人民日报",
+      "homepage": "http://www.people.com.cn/",
+      "search_urls": ["http://search.people.com.cn/cnpeople/search.do?keyword={kw}"],
+      "rss_feeds": ["http://www.people.com.cn/rss/politics.xml"],
+      "credibility": 10,
+      "language": "zh",
+      "tags": ["央媒", "综合"]
+    },
+    {
+      "name": "新华社",
+      "homepage": "http://www.xinhuanet.com/",
+      "search_urls": ["http://so.news.cn/getNews?keyword={kw}&curPage=1"],
+      "rss_feeds": ["http://www.xinhuanet.com/rss/xinhuaribao.xml"],
+      "credibility": 10,
+      "language": "zh",
+      "tags": ["央媒", "通讯社"]
+    },
+    {
+      "name": "新华网财经",
+      "homepage": "https://www.news.cn/money/",
+      "search_urls": ["https://www.news.cn/money/{kw}.htm"],
+      "credibility": 10,
+      "language": "zh",
+      "tags": ["央媒", "财经"]
+    },
+    {
+      "name": "经济日报",
+      "homepage": "http://www.ce.cn/",
+      "search_urls": ["http://so.ce.cn/search.jsp?keyword={kw}"],
+      "credibility": 10,
+      "language": "zh",
+      "tags": ["央媒", "经济"]
+    },
+    {
+      "name": "中国证券报",
+      "homepage": "https://www.cs.com.cn/",
+      "search_urls": ["https://so.cs.com.cn/s?searchword={kw}"],
+      "credibility": 10,
+      "language": "zh",
+      "tags": ["证券媒体", "权威"]
+    },
+    {
+      "name": "上海证券报",
+      "homepage": "https://www.cnstock.com/",
+      "search_urls": ["https://so.cnstock.com/search?keyword={kw}"],
+      "credibility": 10,
+      "language": "zh",
+      "tags": ["证券媒体", "权威"]
+    },
+    {
+      "name": "证券时报",
+      "homepage": "https://www.stcn.com/",
+      "search_urls": ["https://www.stcn.com/search/index.html?keyword={kw}"],
+      "credibility": 10,
+      "language": "zh",
+      "tags": ["证券媒体", "权威"]
+    },
+    {
+      "name": "证券日报",
+      "homepage": "http://www.zqrb.cn/",
+      "search_urls": ["http://www.zqrb.cn/search/index.html?keyword={kw}"],
+      "credibility": 9,
+      "language": "zh",
+      "tags": ["证券媒体", "权威"]
+    },
+    {
+      "name": "金融时报",
+      "homepage": "https://www.financialnews.com.cn/",
+      "search_urls": ["https://www.financialnews.com.cn/search/index.html?keyword={kw}"],
+      "credibility": 10,
+      "language": "zh",
+      "tags": ["央媒", "金融"]
+    }
+  ],
+
+  "financial_vertical": [
+    {
+      "name": "财联社",
+      "homepage": "https://www.cls.cn/",
+      "search_urls": [
+        "https://www.cls.cn/searchPage?type=telegram&keyword={kw}",
+        "https://www.cls.cn/searchPage?type=article&keyword={kw}"
+      ],
+      "telegraph_api": "https://www.cls.cn/nodeapi/updateTelegraphList",
+      "credibility": 9,
+      "language": "zh",
+      "tags": ["财联社", "快讯"]
+    },
+    {
+      "name": "华尔街见闻",
+      "homepage": "https://wallstreetcn.com/",
+      "search_urls": ["https://wallstreetcn.com/search?keyword={kw}"],
+      "api_endpoints": ["https://api-one.wallstcn.com/apimobile/v2/articles?keyword={kw}"],
+      "credibility": 8,
+      "language": "zh",
+      "tags": ["财经垂直", "全球市场"]
+    },
+    {
+      "name": "第一财经",
+      "homepage": "https://www.yicai.com/",
+      "search_urls": ["https://www.yicai.com/search?keys={kw}"],
+      "credibility": 9,
+      "language": "zh",
+      "tags": ["财经媒体", "专业"]
+    },
+    {
+      "name": "财新网",
+      "homepage": "https://www.caixin.com/",
+      "search_urls": ["https://search.caixin.com/search/all/{kw}.html"],
+      "credibility": 9,
+      "language": "zh",
+      "tags": ["财经媒体", "深度调查"]
+    },
+    {
+      "name": "21世纪经济报道",
+      "homepage": "https://m.21jingji.com/",
+      "search_urls": ["https://search.21jingji.com/search/home.html?keyword={kw}"],
+      "credibility": 9,
+      "language": "zh",
+      "tags": ["财经媒体", "深度"]
+    },
+    {
+      "name": "经济观察报",
+      "homepage": "http://www.eeo.com.cn/",
+      "search_urls": ["http://www.eeo.com.cn/search/index.html?keyword={kw}"],
+      "credibility": 8,
+      "language": "zh",
+      "tags": ["财经媒体", "评论"]
+    },
+    {
+      "name": "每日经济新闻",
+      "homepage": "https://www.nbd.com.cn/",
+      "search_urls": ["https://www.nbd.com.cn/search/?keyword={kw}"],
+      "credibility": 8,
+      "language": "zh",
+      "tags": ["财经媒体", "日报"]
+    },
+    {
+      "name": "36氪",
+      "homepage": "https://36kr.com/",
+      "search_urls": ["https://gateway.36kr.com/api/mis/nav/home/nav/rank/hot?keyword={kw}"],
+      "credibility": 7,
+      "language": "zh",
+      "tags": ["创投", "科技"]
+    },
+    {
+      "name": "投中网",
+      "homepage": "https://www.chinaventure.com.cn/",
+      "search_urls": ["https://www.chinaventure.com.cn/search?keyword={kw}"],
+      "credibility": 8,
+      "language": "zh",
+      "tags": ["PE/VC", "一级市场"]
+    },
+    {
+      "name": "虎嗅",
+      "homepage": "https://www.huxiu.com/",
+      "search_urls": ["https://www.huxiu.com/search.html?keyword={kw}"],
+      "credibility": 7,
+      "language": "zh",
+      "tags": ["科技", "评论"]
+    },
+    {
+      "name": "集思录",
+      "homepage": "https://www.jisilu.cn/",
+      "search_urls": ["https://www.jisilu.cn/search.php?search={kw}"],
+      "credibility": 8,
+      "language": "zh",
+      "tags": ["可转债", "债券"]
+    }
+  ],
+
+  "local_media": [
+    {
+      "name": "北京日报",
+      "homepage": "https://www.bjd.com.cn/",
+      "search_urls": ["https://www.bjd.com.cn/search?keyword={kw}"],
+      "credibility": 9,
+      "language": "zh",
+      "tags": ["省级党报", "北京"]
+    },
+    {
+      "name": "解放日报",
+      "homepage": "https://www.jfdaily.com/",
+      "search_urls": ["https://www.jfdaily.com/search?keyword={kw}"],
+      "credibility": 9,
+      "language": "zh",
+      "tags": ["省级党报", "上海"]
+    },
+    {
+      "name": "南方都市报",
+      "homepage": "https://www.nandu.com/",
+      "search_urls": ["https://www.nandu.com/search?keyword={kw}"],
+      "credibility": 8,
+      "language": "zh",
+      "tags": ["地方都市报", "广东"]
+    },
+    {
+      "name": "广州日报",
+      "homepage": "https://www.gzdaily.cn/",
+      "search_urls": ["https://www.gzdaily.cn/search?keyword={kw}"],
+      "credibility": 9,
+      "language": "zh",
+      "tags": ["省级党报", "广东"]
+    },
+    {
+      "name": "深圳特区报",
+      "homepage": "https://www.sztaibao.com/",
+      "search_urls": ["https://www.sztaibao.com/search?keyword={kw}"],
+      "credibility": 9,
+      "language": "zh",
+      "tags": ["地方官媒", "深圳"]
+    },
+    {
+      "name": "南方周末",
+      "homepage": "https://www.infzm.com/",
+      "search_urls": ["https://www.infzm.com/search?keyword={kw}"],
+      "credibility": 9,
+      "language": "zh",
+      "tags": ["地方媒体", "深度"]
+    },
+    {
+      "name": "扬子晚报",
+      "homepage": "http://www.yzwb.net/",
+      "search_urls": ["http://www.yzwb.net/search?keyword={kw}"],
+      "credibility": 8,
+      "language": "zh",
+      "tags": ["地方都市报", "江苏"]
+    },
+    {
+      "name": "新京报",
+      "homepage": "https://www.bjnews.com.cn/",
+      "search_urls": ["https://www.bjnews.com.cn/search?keyword={kw}"],
+      "credibility": 8,
+      "language": "zh",
+      "tags": ["地方都市报", "北京"]
+    },
+    {
+      "name": "钱江晚报",
+      "homepage": "https://qjwb.thehour.cn/",
+      "search_urls": ["https://qjwb.thehour.cn/search?keyword={kw}"],
+      "credibility": 8,
+      "language": "zh",
+      "tags": ["地方都市报", "浙江"]
+    },
+    {
+      "name": "中国基金报",
+      "homepage": "https://www.chinafund.cn/",
+      "search_urls": ["https://www.chinafund.cn/search?keyword={kw}"],
+      "credibility": 8,
+      "language": "zh",
+      "tags": ["行业媒体", "基金"]
+    },
+    {
+      "name": "上海证券报地方版（地方交易所公告）",
+      "homepage": "https://www.sse.com.cn/",
+      "search_urls": ["http://query.sse.com.cn/security/stock/queryCompanyBulletinNew.do?productId={kw}"],
+      "credibility": 10,
+      "language": "zh",
+      "tags": ["交易所公告"]
+    }
+  ],
+
+  "self_media": [
+    {
+      "name": "新浪财经微博",
+      "homepage": "https://finance.sina.com.cn/",
+      "weibo_accounts": ["新浪财经", "证券时报网", "上海证券报", "21世纪经济报道"],
+      "search_urls": ["https://s.weibo.com/article?q={kw}"],
+      "credibility": 6,
+      "language": "zh",
+      "tags": ["微博", "自媒体"]
+    },
+    {
+      "name": "微信公众号（财经类）",
+      "homepage": "https://mp.weixin.qq.com/",
+      "search_urls": ["https://weixin.sogou.com/weixin?type=2&query={kw}"],
+      "credibility": 5,
+      "language": "zh",
+      "tags": ["微信", "自媒体", "需搜狗引擎"]
+    },
+    {
+      "name": "今日头条",
+      "homepage": "https://www.toutiao.com/",
+      "search_urls": ["https://so.toutiao.com/search?keyword={kw}"],
+      "credibility": 5,
+      "language": "zh",
+      "tags": ["自媒体", "算法推荐"]
+    },
+    {
+      "name": "百家号",
+      "homepage": "https://baijiahao.baidu.com/",
+      "search_urls": ["https://www.baidu.com/s?wd={kw}+site%3Abaijiahao.baidu.com"],
+      "credibility": 4,
+      "language": "zh",
+      "tags": ["自媒体", "百度"]
+    },
+    {
+      "name": "雪球（用户讨论）",
+      "homepage": "https://xueqiu.com/",
+      "search_urls": ["https://xueqiu.com/k?q={kw}"],
+      "api_endpoints": ["https://xueqiu.com/query/v1/symbol/search/status.json?count=20&keyword={kw}"],
+      "credibility": 6,
+      "language": "zh",
+      "tags": ["投资社区", "用户讨论"]
+    },
+    {
+      "name": "东方财富股吧",
+      "homepage": "https://guba.eastmoney.com/",
+      "search_urls": ["https://guba.eastmoney.com/search?keyword={kw}"],
+      "credibility": 4,
+      "language": "zh",
+      "tags": ["投资社区", "股吧"]
+    },
+    {
+      "name": "知乎",
+      "homepage": "https://www.zhihu.com/",
+      "search_urls": ["https://www.zhihu.com/search?type=content&q={kw}"],
+      "credibility": 6,
+      "language": "zh",
+      "tags": ["问答社区", "用户"]
+    },
+    {
+      "name": "小红书",
+      "homepage": "https://www.xiaohongshu.com/",
+      "search_urls": ["https://www.xiaohongshu.com/search_result?keyword={kw}"],
+      "credibility": 4,
+      "language": "zh",
+      "tags": ["社交", "生活"]
+    },
+    {
+      "name": "B站财经",
+      "homepage": "https://www.bilibili.com/",
+      "search_urls": ["https://search.bilibili.com/article?keyword={kw}"],
+      "credibility": 5,
+      "language": "zh",
+      "tags": ["视频", "自媒体"]
+    },
+    {
+      "name": "抖音财经",
+      "homepage": "https://www.douyin.com/",
+      "search_urls": ["https://www.douyin.com/search/{kw}"],
+      "credibility": 4,
+      "language": "zh",
+      "tags": ["视频", "算法推荐"]
+    }
+  ],
+
+  "international": [
+    {
+      "name": "Reuters",
+      "homepage": "https://www.reuters.com/",
+      "search_urls": ["https://www.reuters.com/search/news?query={kw}"],
+      "credibility": 10,
+      "language": "en",
+      "tags": ["国际通讯社"]
+    },
+    {
+      "name": "Bloomberg",
+      "homepage": "https://www.bloomberg.com/",
+      "search_urls": ["https://www.bloomberg.com/search?query={kw}"],
+      "credibility": 10,
+      "language": "en",
+      "tags": ["国际财经"]
+    },
+    {
+      "name": "Financial Times",
+      "homepage": "https://www.ft.com/",
+      "search_urls": ["https://www.ft.com/search?q={kw}"],
+      "credibility": 10,
+      "language": "en",
+      "tags": ["国际财经"]
+    },
+    {
+      "name": "Wall Street Journal",
+      "homepage": "https://www.wsj.com/",
+      "search_urls": ["https://www.wsj.com/search?query={kw}"],
+      "credibility": 10,
+      "language": "en",
+      "tags": ["国际财经"]
+    },
+    {
+      "name": "路透中文",
+      "homepage": "https://cn.reuters.com/",
+      "search_urls": ["https://cn.reuters.com/search?query={kw}"],
+      "credibility": 9,
+      "language": "zh",
+      "tags": ["国际通讯社"]
+    },
+    {
+      "name": "日经中文网",
+      "homepage": "https://cn.nikkei.com/",
+      "search_urls": ["https://cn.nikkei.com/search?query={kw}"],
+      "credibility": 9,
+      "language": "zh",
+      "tags": ["国际媒体", "日本"]
+    },
+    {
+      "name": "HKET（香港经济日报）",
+      "homepage": "https://www.hket.com/",
+      "search_urls": ["https://www.hket.com/search/?q={kw}"],
+      "credibility": 8,
+      "language": "zh",
+      "tags": ["港澳媒体"]
+    }
+  ]
+}

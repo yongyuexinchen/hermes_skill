@@ -654,9 +654,54 @@ hermes kanban --board venture block <task_id> "金融调研不需要代码解剖
 
 ## L2 数据拉取指南
 
-中国网络下股票 API 的完整可用性速查见 `references/china-stock-data-apis.md`。**境内 API 实时可用状态**（哪些 404/503/可用）见 `references/eastmoney-api-availability-matrix.md`。以下为关键要点：
+### 🔴 v3.2 首选：akshare（国内+国外数据全覆盖）
 
-### 推荐首选：腾讯行情 API
+**akshare 是中国网络下最推荐的金融数据方案**——通过新浪/东方财富等国内源获取A股数据，同时支持境外指数（费城SOX/韩国KOSPI/台湾加权等）。
+
+```python
+import os
+# ⚠️ 必须先清理代理环境变量，否则 requests 走 Clash 代理会超时
+for k in ['http_proxy','https_proxy','HTTP_PROXY','HTTPS_PROXY','all_proxy','ALL_PROXY']:
+    os.environ.pop(k, None)
+
+import akshare as ak
+
+# 境外指数
+sox = ak.index_us_stock_sina(symbol='.SOX')      # 费城半导体
+kospi = ak.index_global_spot_em()                  # 全球指数（含韩国/台湾/日本）
+
+# A股数据
+a_share = ak.stock_zh_a_spot_em()                  # A股全量行情
+fund_nav = ak.fund_open_fund_info_em(symbol='159995', indicator='单位净值走势')  # ETF净值
+```
+
+**境外数据获取能力**（通过新浪API，直连无需代理）：
+
+| 数据 | akshare 函数 | 可靠性 |
+|------|-------------|:---:|
+| 费城半导体 SOX | `ak.index_us_stock_sina('.SOX')` | ✅ 稳定 |
+| 韩国 KOSPI / KOSDAQ | `ak.index_global_spot_em()` | ✅ 稳定 |
+| 台湾加权 / 日本日经 | `ak.index_global_spot_em()` | ✅ 稳定 |
+| 美股个股 (英伟达/美光) | `ak.stock_us_spot_em()` | ✅ 稳定 |
+| 外汇 (韩元/新台币/日元) | `ak.currency_boc_sina()` 或 `ak.fx_spot_quote()` | ⚠️ 部分可用 |
+
+**使用前必须**：`unset http_proxy https_proxy`（或代码中 `os.environ.pop`），否则 Python requests 会走 Clash 代理→连接被拒。
+
+### 🔴 v3.2 备选：cnfinancialscraper（舆情+研报+龙虎榜+东方财富）
+
+加载技能后可用：`skill_view('cn-financial-scraper')`。覆盖东方财富龙虎榜/北向资金/基金净值、全网舆情（48+站点）、券商研报、巨潮公告、多引擎搜索等。**对境内金融数据爬取做了特殊优化**（反爬+类人浏览器+回测过滤）。
+
+```python
+from scripts import crawl_sentiment, search_and_fetch
+# 舆情爬取
+snap = crawl_sentiment(targets=['寒武纪','中芯国际'], days=7, source_categories=['authoritative','financial_vertical'])
+# 搜索+爬取
+results = search_and_fetch('半导体 2026年7月 暴跌原因', limit=5)
+```
+
+### 传统方案：腾讯行情 API（最快最稳定，HTTP 直连无需代理）
+
+**完整数据采集脚本模板**：`templates/fetch-stock-data.py`——基于本 session 实战验证的批量数据采集模板，含已确认可用/不可用的端点注释。
 
 ```python
 # 最快最稳定，HTTP 直连无需代理

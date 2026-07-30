@@ -1,0 +1,84 @@
+{
+  "type": "fund_subsidiary",
+  "type_name": "基金子公司",
+  "count": 15,
+  "data_source": "国家金融监督管理总局/银行业协会/基金业协会/证券业协会",
+  "update_time": "2026-05-23 01:32:30",
+  "institutions": [
+    {
+      "name": "招商财富",
+      "code": "ZSCF",
+      "type": "基金子公司"
+    },
+    {
+      "name": "平安汇通",
+      "code": "PAHT",
+      "type": "基金子公司"
+    },
+    {
+      "name": "民生加银",
+      "code": "MSJY",
+      "type": "基金子公司"
+    },
+    {
+      "name": "工银瑞信投资",
+      "code": "ICBC",
+      "type": "基金子公司"
+    },
+    {
+      "name": "建信资本",
+      "code": "CCBZB",
+      "type": "基金子公司"
+    },
+    {
+      "name": "农银汇理资产",
+      "code": "ABHLZC",
+      "type": "基金子公司"
+    },
+    {
+      "name": "中银资本",
+      "code": "BCCB",
+      "type": "基金子公司"
+    },
+    {
+      "name": "光大资本",
+      "code": "GDCB",
+      "type": "基金子公司"
+    },
+    {
+      "name": "华安未来",
+      "code": "HAWL",
+      "type": "基金子公司"
+    },
+    {
+      "name": "国投瑞银资本",
+      "code": "GTRYCB",
+      "type": "基金子公司"
+    },
+    {
+      "name": "华夏资本",
+      "code": "HXZB",
+      "type": "基金子公司"
+    },
+    {
+      "name": "易方达资产",
+      "code": "EFDZC",
+      "type": "基金子公司"
+    },
+    {
+      "name": "嘉实资本",
+      "code": "JSZB",
+      "type": "基金子公司"
+    },
+    {
+      "name": "南方资本",
+      "code": "NFZB",
+      "type": "基金子公司"
+    },
+    {
+      "name": "博时资本",
+      "code": "BSZB",
+      "type": "基金子公司"
+    }
+  ]
+}

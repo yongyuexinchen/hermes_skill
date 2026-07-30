@@ -29,6 +29,27 @@
 | `push2.eastmoney.com/api/qt/stock/get` | 单股查询 | 偶发 RemoteDisconnected |
 | `push2his.eastmoney.com/api/qt/kamt.kline/get` | 北向资金 | 需验证 |
 
+### ✅ 新闻搜索回退（2026-07-30 发现）
+
+| 端点 | 用途 | 调用方式 | 备注 |
+|------|------|---------|------|
+| `so.eastmoney.com/news/s?keyword=...` | **终极回退**——全球指数/个股涨跌幅 | browser_navigate | 无 CAPTCHA、无 JS 依赖、纯文本渲染 |
+
+**已验证可获取的数据**：
+- 费城SOX日跌幅百分比 + 成分股明细（美光-8%+/ASML-5%+/英特尔-5%+/英伟达-1.17%）
+- 台积电日跌幅百分比
+- A股板块资金流向
+- 存储芯片概念"月跌超60%"级别的大趋势数据
+
+**使用方式**：
+```
+browser_navigate "https://so.eastmoney.com/news/s?keyword=SOX+费城半导体+2026年7月"
+→ 提取新闻标题和快讯摘要中的涨跌幅数字
+→ 多篇新闻交叉验证
+```
+
+**局限性**：只能获取百分比，无法获取精确指数点位。不保证 100% 覆盖所有查询。
+
 ## 回退策略
 
 当东方财富 API 大面积不可用时：

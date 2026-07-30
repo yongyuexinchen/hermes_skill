@@ -1,0 +1,90 @@
+[
+  {
+    "snapshot_id": "sn_20260728_002243_47a8e9",
+    "created_at": "2026-07-28 00:22:43",
+    "total": 0,
+    "pos": 0,
+    "neg": 0,
+    "path": "D:\\claude 开发\\skill of me\\cn-financial-scraper\\data\\sentiment_snapshots\\sn_20260728_002243_47a8e9.json"
+  },
+  {
+    "snapshot_id": "sn_20260728_002140_47a8e9",
+    "created_at": "2026-07-28 00:21:40",
+    "total": 0,
+    "pos": 0,
+    "neg": 0,
+    "path": "D:\\claude 开发\\skill of me\\cn-financial-scraper\\data\\sentiment_snapshots\\sn_20260728_002140_47a8e9.json"
+  },
+  {
+    "snapshot_id": "sn_20260728_001633_47a8e9",
+    "created_at": "2026-07-28 00:16:33",
+    "total": 0,
+    "pos": 0,
+    "neg": 0,
+    "path": "D:\\claude 开发\\skill of me\\cn-financial-scraper\\data\\sentiment_snapshots\\sn_20260728_001633_47a8e9.json"
+  },
+  {
+    "snapshot_id": "sn_20260728_001422_47a8e9",
+    "created_at": "2026-07-28 00:14:22",
+    "total": 0,
+    "pos": 0,
+    "neg": 0,
+    "path": "D:\\claude 开发\\skill of me\\cn-financial-scraper\\data\\sentiment_snapshots\\sn_20260728_001422_47a8e9.json"
+  },
+  {
+    "snapshot_id": "sn_20260728_001310_47a8e9",
+    "created_at": "2026-07-28 00:13:10",
+    "total": 1,
+    "pos": 0,
+    "neg": 0,
+    "path": "D:\\claude 开发\\skill of me\\cn-financial-scraper\\data\\sentiment_snapshots\\sn_20260728_001310_47a8e9.json"
+  },
+  {
+    "snapshot_id": "sn_20260728_001120_47a8e9",
+    "created_at": "2026-07-28 00:11:20",
+    "total": 0,
+    "pos": 0,
+    "neg": 0,
+    "path": "D:\\claude 开发\\skill of me\\cn-financial-scraper\\data\\sentiment_snapshots\\sn_20260728_001120_47a8e9.json"
+  },
+  {
+    "snapshot_id": "sn_20260728_001036_47a8e9",
+    "created_at": "2026-07-28 00:10:36",
+    "total": 0,
+    "pos": 0,
+    "neg": 0,
+    "path": "D:\\claude 开发\\skill of me\\cn-financial-scraper\\data\\sentiment_snapshots\\sn_20260728_001036_47a8e9.json"
+  },
+  {
+    "snapshot_id": "sn_20260728_000957_47a8e9",
+    "created_at": "2026-07-28 00:09:57",
+    "total": 0,
+    "pos": 0,
+    "neg": 0,
+    "path": "D:\\claude 开发\\skill of me\\cn-financial-scraper\\data\\sentiment_snapshots\\sn_20260728_000957_47a8e9.json"
+  },
+  {
+    "snapshot_id": "sn_20260728_000744_47a8e9",
+    "created_at": "2026-07-28 00:07:44",
+    "total": 0,
+    "pos": 0,
+    "neg": 0,
+    "path": "D:\\claude 开发\\skill of me\\cn-financial-scraper\\data\\sentiment_snapshots\\sn_20260728_000744_47a8e9.json"
+  },
+  {
+    "snapshot_id": "sn_20260728_000640_47a8e9",
+    "created_at": "2026-07-28 00:06:40",
+    "total": 0,
+    "pos": 0,
+    "neg": 0,
+    "path": "D:\\claude 开发\\skill of me\\cn-financial-scraper\\data\\sentiment_snapshots\\sn_20260728_000640_47a8e9.json"
+  },
+  {
+    "snapshot_id": "sn_20260728_000500_47a8e9",
+    "created_at": "2026-07-28 00:05:00",
+    "total": 1,
+    "pos": 0,
+    "neg": 0,
+    "path": "D:\\claude 开发\\skill of me\\cn-financial-scraper\\data\\sentiment_snapshots\\sn_20260728_000500_47a8e9.json"
+  }
+]
